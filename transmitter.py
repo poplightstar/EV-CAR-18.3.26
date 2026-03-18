@@ -8,6 +8,7 @@ compass.calibrate()
 auto_mode = True
 line_follow_mode = False
 stopped = False
+claw_open = False
 
 while True:
     if button_a.was_pressed():
@@ -34,6 +35,18 @@ while True:
             auto_mode = True
         display.show(Image.TARGET if line_follow_mode else Image.YES)
         sleep(300)
+        continue
+
+    # Shake to toggle claw open/close
+    if accelerometer.was_gesture("shake"):
+        claw_open = not claw_open
+        if claw_open:
+            radio.send("claw_open")
+            display.show(Image.HAPPY)
+        else:
+            radio.send("claw_close")
+            display.show(Image.MEH)
+        sleep(500)
         continue
 
     if auto_mode and not line_follow_mode and not stopped:

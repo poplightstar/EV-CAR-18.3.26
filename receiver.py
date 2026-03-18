@@ -81,7 +81,6 @@ def turn_left(speed):
 
 
 # --- Gentle arc turns for line following ---
-# Instead of spinning in place, slow one side and keep the other going forward.
 def arc_left(speed):
     motor_forwards(1, speed // 4)
     motor_forwards(2, speed // 4)
@@ -96,6 +95,35 @@ def arc_right(speed):
     motor_forwards(4, speed // 4)
 
 
+# --- Klaw (servo claw on pin16) ---
+# NOTE: pin16 is shared with the line-following left sensor.
+# You cannot use line following and the claw at the same time.
+class Klaw:
+    def __init__(self, pin, freq=50, min_us=700, max_us=2300, angle=180):
+        self.pin = pin
+        self.freq = freq
+        self.min_us = min_us
+        self.max_us = max_us
+        self.angle = angle
+        self.us = 0
+        analog_period = round((1 / self.freq) * 1000)
+        self.pin.set_analog_period(analog_period)
+
+    def write_us(self, us):
+        self.us = min(self.max_us, max(self.min_us, us))
+        analog_op = round(self.us * 1024 * self.freq // 1000000)
+        self.pin.write_analog(analog_op)
+
+    def write_angle(self, degrees):
+        degrees = degrees // 1
+        pulse_range = self.max_us - self.min_us
+        self.us = self.min_us + (pulse_range * degrees) // self.angle
+        self.write_us(self.us)
+
+    def stop(self):
+        self.pin.write_digital(0)
+
+
 # --- Pins ---
 TRIG = pin0
 ECHO = pin1
@@ -108,6 +136,9 @@ CAUTION_DIST = 20
 SAFE_SPEED = 80
 CAUTION_SPEED = 40
 LINE_SPEED = 60
+
+CLAW_OPEN_ANGLE = 180
+CLAW_CLOSE_ANGLE = 0
 
 
 def set_leds(r, y, g):
@@ -171,6 +202,9 @@ set_leds(0, 0, 0)
 radio.config(group=5)
 radio.on()
 
+my_klaw = Klaw(pin16)
+my_klaw.write_angle(CLAW_CLOSE_ANGLE)
+
 current_speed = SAFE_SPEED
 obstacle_too_close = False
 line_follow_mode = False
@@ -178,8 +212,6 @@ line_follow_mode = False
 while True:
     d = measure_distance()
     if d == -1:
-        # Timeout means no echo returned — no obstacle in range.
-        # Treat as safe (clear path), not as an obstacle.
         set_leds(0, 0, 1)
         current_speed = SAFE_SPEED
         obstacle_too_close = False
@@ -208,6 +240,16 @@ while True:
         else:
             display.show(Image.NO)
         sleep(400)
+
+    # Claw commands work regardless of obstacle state
+    if message == "claw_open":
+        my_klaw.write_angle(CLAW_OPEN_ANGLE)
+        display.show(Image.HAPPY)
+        sleep(300)
+    elif message == "claw_close":
+        my_klaw.write_angle(CLAW_CLOSE_ANGLE)
+        display.show(Image.MEH)
+        sleep(300)
 
     if not obstacle_too_close:
         if line_follow_mode:
