@@ -204,7 +204,7 @@ radio.config(group=5)
 radio.on()
 
 my_klaw = Klaw(pin16)
-my_klaw.write_angle(CLAW_CLOSE_ANGLE)
+my_klaw.write_angle(CLAW_OPEN_ANGLE)
 
 # Set up line sensor pull-ups AFTER Klaw init (pin16 is shared)
 LINE_RIGHT.set_pull(LINE_RIGHT.PULL_UP)
@@ -245,15 +245,6 @@ while True:
             display.show(Image.NO)
         sleep(400)
 
-    # Claw commands work regardless of obstacle state
-    if message == "claw_open":
-        my_klaw.write_angle(CLAW_OPEN_ANGLE)
-        display.show(Image.HAPPY)
-        sleep(300)
-    elif message == "claw_close":
-        my_klaw.write_angle(CLAW_CLOSE_ANGLE)
-        display.show(Image.MEH)
-        sleep(300)
 
     if not obstacle_too_close:
         if line_follow_mode:
