@@ -165,10 +165,11 @@ def measure_distance():
     return (utime.ticks_us() - start) / 2.0 / 29.1
 
 
+# NOTE: pin16 is shared between LINE_LEFT and the Klaw servo.
+# Line sensor pull-ups are set up in main, AFTER the Klaw is initialised,
+# so that the Klaw can configure pin16 for analog output first.
 LINE_LEFT = pin16
 LINE_RIGHT = pin15
-LINE_LEFT.set_pull(LINE_LEFT.PULL_UP)
-LINE_RIGHT.set_pull(LINE_RIGHT.PULL_UP)
 
 
 def read_line_sensors():
@@ -204,6 +205,9 @@ radio.on()
 
 my_klaw = Klaw(pin16)
 my_klaw.write_angle(CLAW_CLOSE_ANGLE)
+
+# Set up line sensor pull-ups AFTER Klaw init (pin16 is shared)
+LINE_RIGHT.set_pull(LINE_RIGHT.PULL_UP)
 
 current_speed = SAFE_SPEED
 obstacle_too_close = False
