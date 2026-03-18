@@ -203,7 +203,7 @@ set_leds(0, 0, 0)
 radio.config(group=5)
 radio.on()
 
-my_klaw = Klaw(pin16)
+my_klaw = Klaw(pin2)
 my_klaw.write_angle(CLAW_OPEN_ANGLE)
 
 # Set up line sensor pull-ups AFTER Klaw init (pin16 is shared)
