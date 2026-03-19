@@ -1,5 +1,4 @@
-from microbit import i2c, sleep
-from microbit import display, Image
+from microbit import i2c, sleep, display
 
 CHIP_ADDRESS = 0x6C
 
