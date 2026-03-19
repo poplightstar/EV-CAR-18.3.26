@@ -26,3 +26,6 @@
 ## 5. Other Equipment
 * **Keysight EDU36311A Triple Output Programmable DC Power Supply**
   * *(Used for testing and characterisation)*
+
+Software / IDE (Mu Python): T Mu and MicroPython
+Keysight Oscilloscope: In your presentation slides (Slide 3), you mentioned using a Keysight Oscilloscope. If you used it to measure the PWM signals or check the motor voltage, mentioning it here is a massive point-scorer for the "relate to standard data" and "critical analysis" marking criteria.
