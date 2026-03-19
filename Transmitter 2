@@ -1,0 +1,55 @@
+#Transmitter 2
+from microbit import *
+import radio
+
+radio.config(group=5)
+radio.on()
+compass.calibrate()
+
+auto_mode = True
+line_follow_mode = False
+stopped = False
+
+while True:
+    if button_a.was_pressed():
+        if not stopped:
+            radio.send("stop")
+            stopped = True
+            auto_mode = False
+            line_follow_mode = False
+            display.show(Image.NO)
+        else:
+            stopped = False
+            auto_mode = True
+            display.show(Image.YES)
+        sleep(300)
+        continue
+
+    if button_b.was_pressed():
+        line_follow_mode = not line_follow_mode
+        radio.send("line_mode")
+        stopped = False
+        if line_follow_mode:
+            auto_mode = False
+        else:
+            auto_mode = True
+        display.show(Image.TARGET if line_follow_mode else Image.YES)
+        sleep(300)
+        continue
+
+    if auto_mode and not line_follow_mode and not stopped:
+        degrees = compass.heading()
+        if degrees < 45 or degrees > 315:
+            radio.send("forwards")
+            display.show(Image.ARROW_N)
+        elif degrees < 135:
+            radio.send("turn_left")
+            display.show(Image.ARROW_W)
+        elif degrees < 225:
+            radio.send("reverse")
+            display.show(Image.ARROW_S)
+        else:
+            radio.send("turn_right")
+            display.show(Image.ARROW_E)
+
+    sleep(100)
