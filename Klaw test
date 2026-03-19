@@ -1,7 +1,7 @@
-from microbit import i2c, sleep, display
+from microbit import i2c, sleep
+from microbit import display, Image
 
 CHIP_ADDRESS = 0x6C
-SERVO_REG_BASE = 0x06
 
 def initPCA():
     i2c.write(CHIP_ADDRESS, bytearray([0xFE, 0x7D]))
@@ -10,39 +10,30 @@ def initPCA():
     i2c.write(CHIP_ADDRESS, bytearray([0x00, 0x01]))
     sleep(10)
 
-def set_servo_raw(pulse):
-    i2c.write(CHIP_ADDRESS, bytearray([0x06, 0x00]))
-    i2c.write(CHIP_ADDRESS, bytearray([0x07, 0x00]))
-    i2c.write(CHIP_ADDRESS, bytearray([0x08, pulse & 0xFF]))
-    i2c.write(CHIP_ADDRESS, bytearray([0x09, pulse >> 8]))
+SERVO_REG_BASE = 0x06
+BYTES_PER_CHANNEL = 4
+
+def set_servo(servo, degrees):
+    # FS90 pulse range: 900us to 2100us
+    # PCA9685 at 48.4Hz: 4096 counts per 20.66ms
+    # 900us = 900/20660 * 4096 = 178 counts
+    # 2100us = 2100/20660 * 4096 = 416 counts
+    min_pulse = 178
+    max_pulse = 416
+    # FS90 actual range is 120 degrees
+    if degrees < 0:
+        degrees = 0
+    if degrees > 120:
+        degrees = 120
+    pulse = min_pulse + int((max_pulse - min_pulse) * degrees / 120)
+    reg = SERVO_REG_BASE + (servo - 1) * BYTES_PER_CHANNEL
+    i2c.write(CHIP_ADDRESS, bytearray([reg, 0x00]))
+    i2c.write(CHIP_ADDRESS, bytearray([reg + 1, 0x00]))
+    i2c.write(CHIP_ADDRESS, bytearray([reg + 2, pulse & 0xFF]))
+    i2c.write(CHIP_ADDRESS, bytearray([reg + 3, pulse >> 8]))
+
+CLAW_SERVO = 1
 
 initPCA()
-display.scroll("GO")
-
-# Step 1: Go to absolute minimum position
-set_servo_raw(178)
-display.scroll("MIN")
-sleep(3000)
-
-# Step 2: Go to middle position
-set_servo_raw(297)
-display.scroll("MID")
-sleep(3000)
-
-# Step 3: Go to absolute maximum position
-set_servo_raw(416)
-display.scroll("MAX")
-sleep(3000)
-
-# Step 4: Sweep slowly from min to max
-display.scroll("SWEEP")
-for pulse in range(178, 417, 5):
-    set_servo_raw(pulse)
-    sleep(100)
-
-# Step 5: Sweep slowly back
-for pulse in range(416, 177, -5):
-    set_servo_raw(pulse)
-    sleep(100)
-
-display.scroll("DONE")
+set_servo(CLAW_SERVO, 120)  # Full open
+display.show(Image.YES)
