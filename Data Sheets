@@ -1,0 +1,28 @@
+# EV Car Project - Component References and Links
+
+## 1. Microcontroller
+* **BBC micro:bit V2**
+  * Datasheet: [https://raspberrypi.dk/wp-content/uploads/2020/10/BBC-microbit-v2-datasheet-v1.2.pdf](https://raspberrypi.dk/wp-content/uploads/2020/10/BBC-microbit-v2-datasheet-v1.2.pdf)
+
+## 2. Motor Control & Chassis
+* **Kitronik Compact Robotics Board for micro:bit (5693)**
+  * Datasheet: [https://resources.kitronik.co.uk/pdf/5693-compact-robotics-board-for-microbit-datasheet.pdf](https://resources.kitronik.co.uk/pdf/5693-compact-robotics-board-for-microbit-datasheet.pdf)
+* **Robot Chassis Kit NP (Waveshare / PiHut)**
+  * Product Page & Specs: [https://thepihut.com/products/robot-chassis-kit-np](https://thepihut.com/products/robot-chassis-kit-np)
+
+## 3. Navigation & Sensors
+* **Kitronik :MOVE Line Following Board (5629)**
+  * Product Page: [https://kitronik.co.uk/products/5629-move-line-following-board-for-bbc-microbit](https://kitronik.co.uk/products/5629-move-line-following-board-for-bbc-microbit)
+  * Datasheet: [https://resources.kitronik.co.uk/pdf/5629-move-line-following-board-microbit-datasheet.pdf](https://resources.kitronik.co.uk/pdf/5629-move-line-following-board-microbit-datasheet.pdf)
+
+## 4. Gripper Mechanism (Klaw)
+* **:MOVE Motor Klaw Kit (5696)**
+  * Product Page (Farnell): [https://uk.farnell.com/kitronik/5696/move-motor-klaw-kit-bbc-micro/dp/3922035](https://uk.farnell.com/kitronik/5696/move-motor-klaw-kit-bbc-micro/dp/3922035)
+  * Datasheet: [https://www.farnell.com/datasheets/3672307.pdf](https://www.farnell.com/datasheets/3672307.pdf)
+* **Mini 180 Degree Servo (FS90 / SG90 equivalent)**
+  * Product Page: [https://kitronik.co.uk/products/2565-180-mini-servo](https://kitronik.co.uk/products/2565-180-mini-servo)
+  * Datasheet: [http://www.ee.ic.ac.uk/pcheung/teaching/DE1_EE/stores/sg90_datasheet.pdf](http://www.ee.ic.ac.uk/pcheung/teaching/DE1_EE/stores/sg90_datasheet.pdf)
+
+## 5. Other Equipment
+* **Keysight EDU36311A Triple Output Programmable DC Power Supply**
+  * *(Used for testing and characterisation)*
