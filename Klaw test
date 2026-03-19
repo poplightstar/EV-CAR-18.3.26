@@ -1,0 +1,48 @@
+from microbit import i2c, sleep, display
+
+CHIP_ADDRESS = 0x6C
+SERVO_REG_BASE = 0x06
+
+def initPCA():
+    i2c.write(CHIP_ADDRESS, bytearray([0xFE, 0x7D]))
+    for reg in range(0xFA, 0xFE):
+        i2c.write(CHIP_ADDRESS, bytearray([reg, 0x00]))
+    i2c.write(CHIP_ADDRESS, bytearray([0x00, 0x01]))
+    sleep(10)
+
+def set_servo_raw(pulse):
+    i2c.write(CHIP_ADDRESS, bytearray([0x06, 0x00]))
+    i2c.write(CHIP_ADDRESS, bytearray([0x07, 0x00]))
+    i2c.write(CHIP_ADDRESS, bytearray([0x08, pulse & 0xFF]))
+    i2c.write(CHIP_ADDRESS, bytearray([0x09, pulse >> 8]))
+
+initPCA()
+display.scroll("GO")
+
+# Step 1: Go to absolute minimum position
+set_servo_raw(178)
+display.scroll("MIN")
+sleep(3000)
+
+# Step 2: Go to middle position
+set_servo_raw(297)
+display.scroll("MID")
+sleep(3000)
+
+# Step 3: Go to absolute maximum position
+set_servo_raw(416)
+display.scroll("MAX")
+sleep(3000)
+
+# Step 4: Sweep slowly from min to max
+display.scroll("SWEEP")
+for pulse in range(178, 417, 5):
+    set_servo_raw(pulse)
+    sleep(100)
+
+# Step 5: Sweep slowly back
+for pulse in range(416, 177, -5):
+    set_servo_raw(pulse)
+    sleep(100)
+
+display.scroll("DONE")
