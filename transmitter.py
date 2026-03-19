@@ -1,10 +1,8 @@
 from microbit import *
 import radio
-
 radio.config(group=5)
 radio.on()
 compass.calibrate()
-
 auto_mode = True
 line_follow_mode = False
 stopped = False
@@ -22,7 +20,6 @@ while True:
             display.show(Image.YES)
         sleep(300)
         continue
-
     if button_b.was_pressed():
         line_follow_mode = not line_follow_mode
         radio.send("line_mode")
@@ -34,7 +31,6 @@ while True:
         display.show(Image.TARGET if line_follow_mode else Image.YES)
         sleep(300)
         continue
-
     if auto_mode and not line_follow_mode and not stopped:
         degrees = compass.heading()
         if degrees < 45 or degrees > 315:
@@ -49,5 +45,4 @@ while True:
         else:
             radio.send("turn_right")
             display.show(Image.ARROW_E)
-
     sleep(100)
