@@ -1,0 +1,36 @@
+from microbit import pin8, display, sleep, button_a, button_b
+
+display.off()
+pin8.set_analog_period(20)
+
+CLAW_OPEN = 140
+CLAW_CLOSED = 5
+
+current_angle = CLAW_CLOSED
+
+def set_angle(deg):
+    pulse = 544 + int((2400 - 544) * deg / 180)
+    duty = int(pulse / 20000 * 1023)
+    pin8.write_analog(duty)
+
+def move_to(target):
+    global current_angle
+    if target > current_angle:
+        step = 1
+    else:
+        step = -1
+    while current_angle != target:
+        current_angle += step
+        set_angle(current_angle)
+        sleep(10)
+
+set_angle(CLAW_CLOSED)
+
+while True:
+    if button_b.was_pressed():
+        move_to(CLAW_OPEN)
+
+    if button_a.was_pressed():
+        move_to(CLAW_CLOSED)
+
+    sleep(50)
