@@ -1,0 +1,14 @@
+from microbit import *
+import radio
+
+radio.on()
+radio.config(group=5, power=2)
+
+while True:
+    x = accelerometer.get_x()
+    y = accelerometer.get_y()
+    z = accelerometer.get_z()
+    message = "{},{},{}".format(x, y, z)
+    radio.send(message)
+    display.show(Image.HEART)
+    sleep(20)
