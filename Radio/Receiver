@@ -1,0 +1,23 @@
+from microbit import *
+import radio
+
+radio.on()
+radio.config(group=5)
+
+recording = True
+
+while True:
+    if button_a.was_pressed():
+        recording = not recording
+    
+    if recording:
+        m = radio.receive()
+        if m:
+            print(m)
+            display.show(Image.HEART)
+            sleep(500)
+        else:
+            display.show("X")
+        sleep(100)
+    else:
+        display.show("P")
