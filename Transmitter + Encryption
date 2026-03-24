@@ -55,6 +55,11 @@ while True:
         sleep(300)
         continue
 
+    if line_follow_mode and not stopped:
+        display.show(Image.TARGET)
+        sleep(100)
+        continue
+
     if auto_mode and not line_follow_mode and not stopped:
         degrees = compass.heading()
         if degrees < 45 or degrees > 315:
