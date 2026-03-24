@@ -1,0 +1,85 @@
+#Transmitter + Encryption v4
+from microbit import *
+import radio
+
+radio.config(group=5)
+radio.on()
+compass.calibrate()
+
+# --- Encryption ---
+KEY = "hospiEV16"
+counter = 0
+
+def encrypt(msg, key):
+    out = ""
+    for i in range(len(msg)):
+        val = ord(msg[i]) ^ ord(key[i % len(key)])
+        out += "{:02x}".format(val)
+    return out
+
+def send_cmd(cmd):
+    global counter
+    counter += 1
+    msg = str(counter) + ":" + cmd
+    radio.send(encrypt(msg, KEY))
+# --- End Encryption ---
+
+auto_mode = True
+line_follow_mode = False
+stopped = False
+
+while True:
+    if button_a.was_pressed():
+        if not stopped:
+            for i in range(5):
+                send_cmd("stop")
+                sleep(50)
+            stopped = True
+            auto_mode = False
+            line_follow_mode = False
+            display.show(Image.NO)
+        else:
+            stopped = False
+            auto_mode = True
+            display.show(Image.YES)
+        sleep(50)
+        continue
+
+    if button_b.was_pressed():
+        line_follow_mode = not line_follow_mode
+        stopped = False
+        if line_follow_mode:
+            for i in range(5):
+                send_cmd("line_on")
+                sleep(50)
+            auto_mode = False
+        else:
+            for i in range(5):
+                send_cmd("line_off")
+                sleep(50)
+            auto_mode = True
+        display.show(Image.TARGET if line_follow_mode else Image.YES)
+        sleep(50)
+        continue
+
+    if line_follow_mode and not stopped:
+        display.show(Image.TARGET)
+        sleep(100)
+        continue
+
+    if auto_mode and not line_follow_mode and not stopped:
+        degrees = compass.heading()
+        if degrees < 45 or degrees > 315:
+            send_cmd("forwards")
+            display.show(Image.ARROW_N)
+        elif degrees < 135:
+            send_cmd("turn_left")
+            display.show(Image.ARROW_W)
+        elif degrees < 225:
+            send_cmd("reverse")
+            display.show(Image.ARROW_S)
+        else:
+            send_cmd("turn_right")
+            display.show(Image.ARROW_E)
+
+    sleep(100)
