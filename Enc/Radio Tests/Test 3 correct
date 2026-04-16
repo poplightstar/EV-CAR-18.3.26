@@ -1,0 +1,40 @@
+#Test 3: Correct Key Attacker
+#Sends encrypted commands with CORRECT key
+#Expected result: Vehicle accepts and executes commands
+#This demonstrates that the encryption itself works, but exposes the
+#limitation that anyone with the key can control the vehicle.
+from microbit import *
+import radio
+
+radio.config(group=5)
+radio.on()
+
+KEY = "hospiEV16"
+counter = 9000   # High starting value to override receiver's last_counter
+count = 0
+
+def encrypt(msg, key):
+    out = ""
+    for i in range(len(msg)):
+        val = ord(msg[i]) ^ ord(key[i % len(key)])
+        out += "{:02x}".format(val)
+    return out
+
+def send_cmd(cmd):
+    global counter
+    counter += 1
+    msg = str(counter) + ":" + cmd
+    radio.send(encrypt(msg, KEY))
+
+while True:
+    if button_a.was_pressed():
+        send_cmd("forwards")
+        count += 1
+        display.show(str(count % 10))
+        sleep(200)
+    elif button_b.was_pressed():
+        send_cmd("stop")
+        count += 1
+        display.show(str(count % 10))
+        sleep(200)
+    sleep(50)
