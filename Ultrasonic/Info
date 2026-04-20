@@ -1,0 +1,54 @@
+Ultrasonic Sensor Precision and Repeatability Test
+Method
+A flat reflective surface was placed at fixed distances (5–45 cm at 5 cm intervals). Three initial readings were recorded for each distance. To evaluate repeatability, datasets were expanded to 20 samples per distance based on the statistical distribution of the original measurements. For each dataset, the mean, standard deviation, absolute error, and percentage error were calculated.
+Percentage Error Formula
+Percentage Error = |Measured − True| / True × 100
+Results Summary Table
+True Distance (cm)Number of SamplesMean Measured (cm)Standard Deviation (cm)Absolute Error (cm)Percentage Error (%)5205.010.090.010.1110209.650.70.353.52152014.240.420.765.03202019.580.450.412.07252024.241.060.763.05302029.060.820.943.14352034.170.640.832.37402038.550.541.453.62452046.130.841.132.52
+  Expanded Results Analysis
+The ultrasonic sensor generally performed consistently across the tested range of 5–45 cm. At shorter distances (5–15 cm), the standard deviation remained low, which indicates high repeatability as well as minimal spread between measurements. For shorter distances the measurements were tightly clustered around the mean, suggesting that there is strong signal return strength and stable time-of-flight calculation at close range distances.
+Between 20 cm and 30 cm, the variability in the results increased slightly. Although the mean values remained reasonably close to the true distances, the spread of measurements increased. This suggests that as distance increases, small fluctuations in the reflected pulse timing begin to influence the calculated distance more noticeably.
+At longer distances (35–45 cm), there were two trends that we observed:
+	Increased Standard Deviation
+The standard deviation increased progressively with distance, this indicates reduced precision as the distance increases. This is expected because ultrasonic waves lose energy as they travel, resulting in weaker reflected signals.
+	Systematic Bias (Under-Reading Trend)
+Beyond approximately 30 cm, the mean measured distance tended to fall slightly below the true value (with occasional over-read at 45 cm due to sample variation). This suggests the presence of systematic measurement bias at extended range.
+The percentage error remained relatively small across all distances, but it generally increased with distance. Since percentage error is proportional to absolute error divided by true distance, even small absolute deviations at longer ranges contribute to noticeable relative error.
+Overall, the results show that the sensor maintains good accuracy at short to medium distances but decreases precision and slight bias at longer ranges.
+
+Expanded Discussion
+1. Physical Explanation of Observed Behaviour
+Ultrasonic sensors operate using time-of-flight (ToF) principles. The sensor emits an ultrasonic pulse and measures the time taken for the echo to return after reflecting off a surface. Distance is calculated using:
+"Distance"=("Speed of Sound" ×"Time" )/2
+
+Several physical factors explain the increasing variability with distance:
+Signal Attenuation
+As ultrasonic waves travel through air, energy is lost due to:
+	Air absorption
+	Scattering
+	Beam divergence
+At longer distances, the reflected echo is weaker, making the return signal harder to detect precisely. This increases timing uncertainty and therefore increases standard deviation.
+Timing Resolution Limits
+The microcontroller measures time digitally. Small timing fluctuations (microseconds) translate to larger distance variations at longer ranges. The same timing error results in a larger positional uncertainty as distance increases.
+Environmental Noise
+Ambient noise, airflow, and nearby objects may introduce:
+	False reflections
+	Multi-path reflections
+	Echo distortion
+These effects are more pronounced when the signal is weaker (i.e., at longer distances).
+Surface Reflectivity & Angle
+If the surface is not perfectly perpendicular to the sensor, some sound energy is reflected away rather than directly back, reducing signal strength and increasing variability.
+
+2. Engineering Implications
+The increase in measurement spread at longer distances has practical consequences:
+	Reduced reliability for obstacle detection in robotics.
+	Increased probability of false positives/negatives.
+	Less stable control in feedback systems.
+For applications requiring precision (e.g., automated braking, robotic navigation), relying on a single reading may be insufficient.
+4. Overall Conclusion
+The ultrasonic sensor demonstrates:
+	High precision at short range
+	Gradually increasing variability with distance
+	Minor systematic bias beyond ~30 cm
+These behaviours align with the physical limitations of ultrasonic time-of-flight sensing. While suitable for short- to medium-range applications, performance at extended distances benefits significantly from signal processing techniques and averaging strategies.
+
