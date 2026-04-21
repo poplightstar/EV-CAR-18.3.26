@@ -1,0 +1,562 @@
+FORMATTING & PRESENTATION CHECKLIST
+[DELETE THIS ENTIRE PAGE before submission. This is a quick-reference checklist based on the Presentation marking criteria (20 marks).]
+
+9K words total
+
+Font & Layout (5 marks):
+	One column layout with justified paragraphs
+	Font: Times New Roman (size 12), Calibri (size 12), or Arial (size 11)
+	Sections are numbered and appear in the Table of Contents
+	Figures and tables are inline centred – no text wrapping around them
+	Equations have equation numbers e.g. (1), (2)
+	Figures have captions BELOW (e.g. "Figure 1: Description")
+	Tables have titles ABOVE (e.g. "Table 1: Description")
+Graphs/Figures (5 marks):
+	Clear with readable annotations/legends
+	Meaningful captions underneath each figure
+	Tidy and professional – poor/untidy graphs = poor marks
+Tables (5 marks):
+	Contain important data, not duplicate data
+	Supported by critical analysis and narrative in the text
+	All tables have titles above them
+References (5 marks):
+	IEEE format throughout
+	In-text citations [1] link to the reference list
+	Aim for more than 7 references for a good report
+	Both reference entry AND in-text link required (plagiarism risk otherwise)
+Cross-Cutting: Explanations (5 marks):
+	For EVERY topic in the report, cover: WHAT was done, WHY it was done, and HOW it was done
+	This applies throughout – not a separate section. Check every subsystem, every design choice.
+Cross-Cutting: Relate to Standard Data (Main Body marks):
+	Compare your results to datasheets, manufacturer specs, or published benchmarks where possible
+Appendices:
+	Appropriately titled with descriptions if necessary
+	Not marked and not counted in word count
+TOTAL: 100 marks across 20 criteria (5 marks each, granularity = 1)
+ 
+
+EN1217 – EV Group Project Report
+[Medical Autonomous EV Prototype]
+
+Group Members:
+[Joshua Payne - Student No: 25049904]
+[Marcellus Virgo-Smith - Student No:]
+[George Parker - Student No: 23066052]
+
+[24/4/26]
+ 
+Abstract
+[Marks: 5 (Critical Thinking) – Write a concise summary of the entire project: objectives, methods, key results, and conclusions. Must be DISTINCT from the Conclusion and fulfil its own specific purpose. Critically select only the most important information. Aim for ~150–250 words.]
+[TOP MARKS TIP: Write this LAST, after the rest of the report is complete. The Abstract should stand alone – a reader should understand the project without reading anything else.]
+[Write your abstract here.]
+ 
+Table of Contents
+Abstract	3
+Table of Contents	4
+1. Introduction	6
+1.1 Project Background and Motivation	6
+1.2 Social, Legal, and Environmental Evaluation	6
+1.3 Aims and Objectives	6
+2. Project Management	7
+2.1 Group Roles and Responsibilities	7
+2.2 Gantt Chart and Project Plan	7
+2.3 SWOT Analysis	7
+3. Theory and Background	8
+3.1 EV Design Principles	8
+3.2 Key Technologies Used	8
+4. System Design and Implementation	9
+4.1 System Control	9
+4.1.1 Design	9
+4.1.2 Method	9
+4.1.3 Optimisation	9
+4.1.4 Results and Data	9
+4.2 Real-Time Sensing	9
+4.2.1 Design	9
+4.2.2 Method	10
+4.2.3 Optimisation	10
+4.2.4 Results and Data	10
+4.3 Communication	10
+4.3.1 Design	10
+4.3.2 Method	10
+4.3.3 Optimisation	10
+4.3.4 Results and Data	10
+4.4 System Integration	10
+4.4.1 Integration Approach	10
+4.4.2 Vehicle Modifications and Layout	11
+4.4.3 Budget	11
+5. Results and Analysis	12
+5.1 Overall System Performance	12
+5.2 Comparison with Existing Technologies	12
+6. Discussion	13
+7. Conclusion	14
+8. References	15
+Appendices	16
+Appendix A: Code Listings	16
+Appendix B: Raw Data	16
+Appendix C: Additional Figures	16
+
+ 
+1. Introduction
+[Marks: 5 (Knowledge & Information) – Convey the motivation and background knowledge/theory necessary to understand the remainder of the report.]
+[TOP MARKS TIP: Explanations criterion (5 marks) applies throughout: for every topic, always explain WHAT was done, WHY, and HOW.]
+Hospital environments require the rapid and efficient delivery of medicines and other necessary items to wards and patients. Conventional manual delivery methods are time-consuming and labour-intensive and have the disadvantage of potential human error and delays in critical situations. This project aims to develop a prototype electric vehicle to simulate an autonomous hospital delivery robot, capable of transporting such payloads more efficiently and accurately than conventional methods.
+
+The prototype utilises two BBC Micro:bits [1], one of which interfaces with a Kitronik compact robotics board [2] to control four DC motors using pulse width modulation. The second micro:bit serves as a handheld wireless transmitter, allowing manual override and mode switching via the integrated radio communication protocol. For autonomous navigation, a Kitronik 5629 line follower [3] is paired with an RCWL-1601 ultrasonic sensor [4], enabling the vehicle to follow a predefined route whilst detecting obstacles. The prototype is constructed using a Waveshare Robot Chassis-P [5], a four-wheeled aluminium alloy platform driven by four DC motors [6]. The payload is secured within an enclosed compartment mounted to the upper chassis of the vehicle, designed to safely contain and transport medical supplies during delivery operations.
+
+
+
+1.1 Project Background and Motivation
+[Explain why this EV project matters. What problem does it solve? What is the broader context of electric vehicles? Include relevant background theory.]
+
+Modern hospital environments require continuous routine and urgent delivery of essential items such as medicine, laboratory samples, meals, and clean linen. These logistical tasks are currently performed manually by medical staff, placing a significant burden on an already overstretched workforce. Figures show, in England alone NHS waiting lists reached approximately 7.4 million patients by August 2025 [8], this extensive pressure on healthcare requires modern solutions to be explored to free healthcare workers from laborious dutys that could instead become automated. Furthermore, any opportunity to rotate staff time from transport duties to direct patient care, represents a meaningful improvement in overall operational efficiency.
+The healthcare sector has identified the potential of robotic automation to address time consuming tasks. As of 2024, the global medical robotic systems market was valued at approximately $25.6 billion, this figure is projected to grow at an annual growth rate of 16.6% through to 2030 [7]. A notable real-world example is the “TUG” autonomous mobile robot, manufactured by Aethon and deployed at the UCSF Medical Centre in San Francisco, this autonomous hospital robot delivers supplies and collects clinical waste, reducing the logistical task load for hospital workers and increasing patient-facing task capability [9].
+This project seeks to explore the potential of increased efficiency using previous principles through a scaled-down prototype that simulates an autonomous hospital delivery robot with the aforementioned electric motors, line-following navigation, ultrasonic sensor and wireless communication.
+
+1.2 Social, Legal, and Environmental Evaluation
+[Marks: 5 (Critical Thinking) – Critically evaluate the EV concept weighing social, legal, and environmental aspects. Security aspects can also be considered.]
+[TOP MARKS TIP: Go beyond description – critically EVALUATE. Weigh pros against cons, reference legislation or standards, and explain implications for your design decisions.]
+The introduction of autonomous delivery robots in hospital settings offers clear social benefits. By automating time consuming transport tasks, clinical staff are freed to focus on the important task of patient care. This could improve treatment outcomes with increased contact time between medical staff and patients, resulting in faster treatment and reduced waiting times [8]. Additionally, robots also operate consistently without fatigue, enabling 24-hour delivery capability. However, the social concerns must also be considered. The disruption towards portering and logistics staff could potentially lead to mass job losses in roles filled with thousands of workers, raising ethical questions about the impact of robotic automation replacing employment [10]. Furthermore, patients and visitors may feel discontent sharing facilities with autonomous machines, particularly in already high-pressure clinical environments. To address this, the prototype developed for this project included a manual override via the wireless transmitter, ensuring a human operator can always take control of the vehicle.
+When identifying legal aspects, it should be noted that autonomous vehicles operating in public or semi-public spaces must comply with strict safety regulations. In the UK, the Automated Vehicles Act 2024 [11] establishes the legal framework for self-driving vehicles, including the necessary requirements for liability and safety standards. Inside hospital premises, autonomous robots must comply with the Supply of Machinery (Safety) Regulations 2008 [12], which retained the safety requirements of the EU Machinery Directive post-Brexit and mandates risk assessments for any mechanical system operating in a workplace. Additionally, the Health and Safety at Work etc. Act 1974 [13] places a duty on employers to ensure our equipment does not pose a risk to staff or the public. For this prototype, collision avoidance is managed via the ultrasonic sensor [4]. This was implemented specifically to address safety compliance, ensuring the vehicle halts when an obstacle is detected within a defined distance.
+Environmentally, Electric vehicles produce zero direct emissions during operation, making them suitable for indoor hospital use where air quality is critical for patient welfare. The prototype's DC motors [6] and micro:bit microcontrollers [1] consume low amounts of power, and could be powered by rechargeable batteries, minimising waste and reducing long-term energy consumption. However, a full environmental evaluation must also consider the complete lifecycle impact of the electronic components used, the mining of lithium and rare earth materials for batteries and circuit boards carries a significant environmental footprint [14]. The production of the necessary chassis and other components will undoubtably be powered via fossil fuel methods. Furthermore, end-of-life disposal of electronic waste must be managed in accordance with the Waste Electrical and Electronic Equipment (WEEE) Regulations 2013 [15]. For the final deployment, these factors would need to be critically evaluated against the environmental impact of the manual alternatives, such as fuel-powered internal transport vehicles still used in some larger hospital campuses.
+1.3 Aims and Objectives
+[Clearly state the project’s initial goals AND stretch goals. These will be directly revisited in Section 7 (Conclusion) to assess accountability.]
+[TOP MARKS TIP: Number your objectives so you can refer back to them explicitly in the Conclusion (e.g. "Objective 1 was achieved because...").]
+The primary aim of this project is to design, build, and test a prototype autonomous electric vehicle capable of simulating efficient hospital delivery operations. The following objectives were defined at the beginning of the project:
+
+	Design and construct a four-wheeled electric vehicle using the Waveshare Robot Chassis-P [5], driven by four DC motors controlled via PWM signals through the Kitronik compact robotics board [2].
+
+	Implement autonomous line-following navigation using the Kitronik 5629 sensor [3], enabling the vehicle to follow a predefined route without manual input.
+
+	Integrate real-time obstacle detection and collision avoidance using the RCWL-1601 ultrasonic sensor [4], ensuring the vehicle halts when an obstruction is detected within a safe distance.
+
+	Establish wireless communication between two BBC Micro bit V2 microcontrollers [1], enabling remote manual override and mode switching.
+
+
+	Incorporate a secure enclosed payload compartment to simulate safe transport of medical supplies.
+
+	Critically evaluate the social, legal, environmental, and security implications of autonomous delivery robots in healthcare settings.
+
+
+In addition to these core objectives, stretch goals were identified to extend the prototype's capability. These included implementing multiple selectable operational modes via the wireless transmitter, and comparing measured stopping distances against theoretical values derived from sensor and motor datasheets.
+ 
+2. Project Management
+2.1 Group Roles and Responsibilities
+Table 1: Group Roles and Responsibilities
+Group Member	Subsystem	Key Tasks
+George Parker	Navigation & Communications	Line-following sensor integration and calibration; XOR-encrypted radio communication between transmitter and receiver micro:bits
+Marcellus Virgo-Smith	Payload & Actuation	Kitronik Klaw servo integration; payload pickup and release mechanism testing
+Joshua Payne	Mechanical Design	3D CAD design (Fusion 360) and printing of enclosed payload cage and line-follower sensor housing
+All Members	System Integration & Reporting	Final assembly on Waveshare chassis; subsystem debugging; report writing and IEEE referencing
+Roles were split into smaller subsystems so that each member could work on their area independently during lab sessions without waiting on each other. This let development happen in timely manners across navigation, payload handling, and mechanical design. System integration, final assembly, and report writing were shared across the group. This ensured all group members had a working understanding of the full system and could assist with debugging when it came to the completion of the prototype.
+2.2 Gantt Chart and Project Plan
+ 
+Figure 1: Project Gantt Chart
+Figure 1 presents the project Gantt chart, showing planned and actual timelines from November 2025 to April 2026. Green bars show completed tasks, blue bars show where tasks were originally planned before delays.
+The project had three phases. Phase 1 ran from November to December 2025, covering the hardware familiarisation lab sessions. Over five weeks, the group worked through the given lab scripts in preparation for EV project video. These sessions established the core technical skills needed for the later build phase, and all were completed on schedule.
+After Christmas break, January exams, and a period of non-EV module activities, Phase 2 began in the week of 24th February 2026 with the addition of the group’s purchased components using the £15 budget. Shortly after, system integration and assembly of the new parts started in the first week of March, followed by system evaluation. From mid-March, work focused on improved radio communication development, wireless transmitter and receiver coding, and collation of the final scheme report.
+However, two tasks deviated from the original plan. The line follower integration and Klaw/servo assembly were both scheduled for the week of 17th March but were delayed. The Klaw servo motor was burnt during initial testing due to a group error and had to be replaced, preventing integration as planned. Additionally, the Klaw was first planned to be the sole payload carrying mechanism, but following a security talk from Babcock, the group identified that an open gripper did not provide adequate security for transporting sensitive medical supplies. This led to the design of a 3D-printed enclosed payload cage, resulting in two unplanned tasks added to the project. The delayed and new tasks were partially completed during sessions on the 23rd to 25th of March before Easter, with the remaining work finished in the week of 14th April.
+Phase 3 covered final testing, optimisation, and report writing. Report writing began before Easter and continued through to submission on 24th April 2026
+2.3 SWOT Analysis
+ 
+Figure 2: SWOT Analysis
+The SWOT analysis identified several weaknesses and threats that were addressed through specific actions during the project.
+The most significant weakness was the group's lack of experience with PWM servo control and current management. This became apparent when the FS90 servo included with the Klaw Kit failed during integration. Investigation using the Kitronik documentation and the FS90 datasheet revealed that the servo had been held in a stalled position, drawing current in excess of its rated capacity, which caused permanent damage. To prevent recurrence, the control code was modified to drive the servo in short, timed bursts rather than holding it continuously under load. The team member responsible for diagnosing the fault shared the findings with the rest of the group through a pair programming session, ensuring the knowledge of PWM duty cycles and stall current was not confined to a single member.
+A further weakness was limited 3D CAD experience, which resulted in the first print of the payload cage failing to meet the required tolerances. This caused slippage in the Gantt chart as the part had to be redesigned and reprinted. To mitigate the delay, the group reprioritised the remaining tasks so that software development, including radio communication and XOR encryption, proceeded in parallel with the reprinting rather than waiting for the physical part. For future projects, the group identified that buffer time should be allocated for 3D printing and that a smaller test print should be produced first to verify fit before committing to a full-scale part.
+The primary external threat was the risk of the build phase overrunning into the time allocated for report writing. This was identified during a weekly progress meeting, and the workload was redistributed so that the group member furthest ahead on the build transitioned to report writing while the remaining members completed assembly and testing. This prevented the report from being rushed at the end of the project.
+Throughout the project, the group adopted a consistent approach to addressing skill gaps: identify the deficiency, study the relevant theory and documentation rather than working around the problem, and share the acquired knowledge with the rest of the team through the shared GitHub repository, pair programming, and weekly meetings. By the end of the project, all members had developed working knowledge of micro:bit radio communication, PWM servo control, ultrasonic sensing, breadboard wiring, XOR encryption, and Git version control, all of which are directly transferable to embedded systems and control modules in later years of the course.
+
+3. Theory and Background
+[Contributes to Main Body marks (5) and Explanations marks (5). Describe the theoretical and technical foundations underpinning your EV design in complete detail.]
+[TOP MARKS TIP: Relate theory to standard data/information from datasheets, textbooks, or published research. Use IEEE references [n] throughout.]
+3.1 EV Design Principles
+[Explain the theoretical foundations of your EV design. Reference relevant engineering principles.]
+The prototype relies on several core engineering principles that underpin the operation of its motor control, sensing, navigation, and communication subsystems. This section outlines the theoretical foundations relevant to the design decisions made throughout the project.
+Pulse Width Modulation (PWM)
+The vehicle's four DC motors are controlled using pulse width modulation, a technique in which a digital signal is rapidly switched between high and low states at a fixed frequency. The proportion of time the signal remains high within each cycle is known as the duty cycle, and this determines the average voltage delivered to the motor. The relationship is given by:
+V_avg = D × V_supply (1)
+where V_avg is the average voltage across the motor, D is the duty cycle (ranging from 0 to 1), and V_supply is the supply voltage provided by the Keysight EDU36311A power supply. For example, at a programmed speed of 50 in the code, the PWM register value is 2000 out of a 12-bit range of 4095, giving a duty cycle of approximately 48.8% [2]. At a supply voltage of 6 V, this would deliver an average of approximately 2.93 V to the motor. Higher duty cycles produce higher average voltages, resulting in faster motor speeds.
+I2C Serial Communication
+The micro:bit communicates with the PCA9685 PWM driver IC on the Kitronik Robotics Board using the Inter-Integrated Circuit (I2C) protocol. I2C is a two-wire serial bus using a clock line (SCL) and a data line (SDA), allowing a master device (the micro:bit) to address and send commands to one or more peripheral devices on the same bus. The PCA9685 receives 12-bit PWM register values from the micro:bit over I2C, which it converts into the corresponding PWM output signals for each motor channel. This architecture offloads the timing-critical PWM generation from the micro:bit's processor, allowing it to focus on higher-level tasks such as sensor reading, radio communication, and decision logic.
+H-Bridge Motor Driver
+Bidirectional control of each DC motor is achieved through H-bridge circuits, which use four transistors arranged in a bridge configuration to control the direction of current flow through the motor. By activating different pairs of transistors, the current direction is reversed, allowing both forward and reverse rotation from a single supply [6].
+ The Kitronik Compact Robotics Board (5693) contains two dual H-bridge driver ICs, each capable of driving two motors independently, providing individual speed and direction control for all four motors [2]. The H-bridge drivers also act as a power stage, allowing the low-voltage 3.3 V control signals from the micro:bit to switch the higher battery voltage to the motors.
+Differential Steering
+The vehicle does not have a mechanical steering mechanism. Instead, turning is achieved through differential steering, where the left and right motor pairs are driven at different speeds. To turn left, the right-side motors run at full speed while the left-side motors run at a reduced speed, and vice versa for a right turn [6].
+ In the line-following mode, the arc correction uses a ratio of 1:4, with the inner wheels driven at one quarter of the outer wheel speed (speed // 4 in the code). This ratio was chosen to provide a gentle correction that keeps the vehicle moving forward while adjusting its heading, rather than a sharp pivot which would cause oscillation and unstable tracking.
+Ultrasonic Distance Measurement
+The RCWL-1601 ultrasonic sensor measures distance using the time-of-flight principle. The sensor emits a short burst of ultrasonic pulses at 40 kHz and measures the time taken for the echo to return after reflecting off an obstacle. The distance to the obstacle is calculated using:
+d = (t × v) / 2 (2)
+where d is the distance in metres, t is the round-trip time in seconds, and v is the speed of sound in air, approximately 343 m/s at 20°C [4]. 
+The division by 2 accounts for the fact that the sound pulse travels to the obstacle and back. In the MicroPython implementation, the distance is calculated as d = (duration / 2.0) / 29.1, where duration is the echo pulse width in microseconds and 29.1 is the number of microseconds per centimetre at the speed of sound. A source of error in this method is that the speed of sound varies with air temperature, being approximately 331 m/s at 0°C and 349 m/s at 30°C. At a fixed divisor of 29.1, the calculated distance will be slightly overestimated in cold environments and underestimated in warm ones.
+Infrared Reflectance Sensing
+The line-following sensor operates on the principle of infrared reflectance. Each sensor pair consists of an infrared LED that emits IR light towards the surface and a phototransistor that measures the intensity of the reflected light. Dark surfaces absorb a greater proportion of the incident IR radiation, resulting in less light reaching the phototransistor and a higher output voltage. Light surfaces reflect more IR radiation, producing a lower output voltage [3]. According to the datasheet, at 3 V VCC a typical light surface produces approximately 0.5 V and a dark surface approximately 2.5 V [3]. The sensor output is continuous and analogue, but in this implementation, it is read digitally using a threshold set by the micro:bit's internal comparator at approximately 1.6 V, converting the analogue signal into a binary line/no-line detection.
+XOR Encryption
+The radio communication between the transmitter and receiver is secured using a bitwise exclusive-or (XOR) cipher. XOR is a logical operation that outputs 1 when the two input bits differ and 0 when they are the same. The key property exploited for encryption is that XOR is its own inverse:
+plaintext XOR key = ciphertext (3)
+ciphertext XOR key = plaintext (4)
+Applying the same key twice recovers the original data, making XOR a symmetric cipher where the same key is used for both encryption and decryption. Each character of the message is XOR-ed with the corresponding character of the shared key, cycling through the key for messages longer than the key length. While XOR with a short repeating key is not considered cryptographically secure for production use, as the repeating key pattern can be exploited through frequency analysis if sufficient ciphertext is captured, it provides adequate protection for a prototype demonstrating the principle of authenticated radio control.
+
+3.2 Key Technologies Used
+[Describe the Microbit, Robotics board, sensors, communication modules, and other hardware/software. Include relevant specifications from datasheets.]
+The prototype relies on two BBC micro:bit V2 microcontrollers as the core processing units. Each micro:bit is built around a Nordic nRF52833 system-on-chip featuring a 64 MHz ARM Cortex-M4 processor with 512 KB of flash memory and 128 KB of RAM [1]. The V2 revision represents a significant upgrade over the original micro:bit, with four times the processing power and eight times the RAM of the V1 board. The nRF52833 includes an integrated 2.4 GHz radio transceiver, which supports both Bluetooth Low Energy and a proprietary micro:bit radio protocol used for device-to-device communication [1]. This built-in radio capability eliminates the need for external wireless modules, simplifying the communication architecture between the vehicle and the handheld transmitter. 
+All software was developed using MicroPython via the Mu editor, chosen for its suitability for rapid prototyping and its direct support for the micro:bit hardware abstraction layer.
+Motor control is managed through the Kitronik Compact Robotics Board (5693) [2], which interfaces with the micro:bit via the I2C protocol through a 16-channel PWM driver IC. The board incorporates two dual H-bridge motor driver ICs, enabling independent control of up to four DC motors, along with eight servo outputs [2]. The board accepts a supply voltage range of 3 V to 10.8 V. PWM signals generated by the driver IC allow proportional speed control of each motor by varying the duty cycle, which is essential for executing differential steering during line-following corrections. The vehicle is powered by a Keysight EDU36311A triple-output programmable DC power supply, which provides a regulated and adjustable voltage directly to the Kitronik robotics board during testing. This bench supply was used in place of an onboard battery pack to allow precise control of the supply voltage during characterisation and to eliminate battery discharge as a variable during testing. PWM output signals and motor drive waveforms were verified using a Keysight EDUX1052A digital storage oscilloscope, a 50 MHz, 2-channel instrument with a sample rate of 1 GSa/s.
+The four DC motors are mounted within the Waveshare Robot Chassis-P [5], a four-wheeled aluminium alloy platform measuring 200 mm in length and 175 mm in width that provides the structural base for the vehicle.
+For autonomous navigation, the Kitronik 5629 line-following board [3] provides two infrared LED and phototransistor sensor pairs, spaced approximately 25 mm apart, which output an analogue voltage proportional to the reflectivity of the surface beneath the vehicle. The board includes onboard tuning potentiometers for adjusting sensor sensitivity and LED indicators for visual confirmation of line detection [3]. These outputs are read by the micro:bit and used to determine whether the vehicle is centred on, drifting left of, or drifting right of the line.
+Obstacle detection and collision avoidance are handled by the RCWL-1601 ultrasonic ranging sensor [4]. This sensor operates on a 3 V to 5.5 V supply with a working current of approximately 2.2 mA and provides a detection range of 2 cm to 450 cm, with the most reliable measurements falling within the 10 cm to 250 cm range [4]. The sensor has a resolution of 1 mm and a test cycle of 50 ms. The RCWL-1601 was selected over the more common HC-SR04 specifically because it operates at 3.3 V logic levels natively, making it directly compatible with the micro:bit without requiring a voltage divider on the echo pin [4].
+The prototype also incorporates a servo-driven gripper mechanism using the Kitronik Klaw kit (5696), actuated by a 180-degree micro servo (FS90, 9g) operating on a 4.8 V to 6 V supply. This mechanism was integrated to simulate the secure collection and release of payloads at designated delivery points.
+
+4. System Design and Implementation
+[Engineering Techniques: 20 marks total (4 subsystems × 5 marks). For each subsystem, document design, optimisation, and data with figures/diagrams/code.]
+[Also contributes to: Main Body (5 marks), Explanations (5 marks), and Critical Thinking for data methods (5 marks).]
+[MINIMUM REQUIREMENT: System control must cover motor operation/control with collision avoidance using the ultrasonic sensor. Basic communication (even wired) can pass if done well, but wireless communication of something meaningful is much better.]
+[TOP MARKS TIP: For EVERY subsystem: (1) explain WHAT, WHY, HOW; (2) critically describe your data collection methods; (3) relate results to datasheet specs or standard values. Number all equations e.g. (1), (2).]
+4.1 System Control
+[Marks: 5 – Use a Microbit with the Robotics board and motors controlled by PWM signals to fulfil a target objective. Document design, optimisation, and data.]
+4.1.1 Design
+[Describe the control system design: PWM configuration, motor control approach, and collision avoidance using the ultrasonic sensor. Explain WHAT the design is, WHY this approach was chosen, and HOW it works.]
+[Insert Figure Here – inline centred, no text wrapping]
+Figure 3: System Control Block Diagram / Circuit Diagram
+4.1.2 Method
+[Critical Thinking (5 marks) – Data and methods for obtaining data must be critically analysed, described, and explained.]
+[Describe the experimental method used to test and collect data for the control system. Explain what was measured, how, and why this method was appropriate.]
+4.1.3 Optimisation
+[Explain how the control system was optimised and tested. What parameters were tuned? What improvements were made?]
+4.1.4 Results and Data
+[Present data, graphs, and analysis of control system performance. Relate to standard data/datasheet specifications where possible.]
+[Ensure all equations are numbered e.g. (1). All figures have captions below. All tables have titles above.]
+[Insert Figure Here – inline centred, no text wrapping]
+Figure 4: Control System Performance Results
+ 4.2 Ultrasonic Sensor
+[Marks: 5 – Utilise sensors to monitor external/internal conditions. Document design, optimisation, and data.]
+4.2.1 Design
+The obstacle detection subsystem uses the RCWL-1601 ultrasonic ranging sensor [4], which measures the distance to objects in front of the vehicle using the time-of-flight principle. The sensor emits a 40 kHz ultrasonic pulse from its transmitter element and measures the time taken for the echo to return after reflecting off a surface. Distance is calculated using the relationship d = (t × v) / 2, where t is the echo pulse duration and v is the speed of sound (approximately 343 m/s at room temperature). The division by two accounts for the fact that the pulse travels to the object and back.
+The RCWL-1601 operates on a 3 V to 5.5 V supply with a working current of approximately 2.2 mA, and provides a measuring range of 2 cm to 450 cm [4]. The board dimensions are 40 mm × 18 mm. It was selected over the more common HC-SR04 specifically because it operates at 3.3 V logic levels natively, making it directly compatible with the micro:bit without requiring a voltage divider on the echo pin. The HC-SR04 operates at 5 V logic and would require additional circuitry to avoid damaging the micro:bit's GPIO pins, which are rated for 3.3 V. Eliminating this voltage divider reduced circuit complexity and removed a potential source of measurement error.
+The sensor is connected to the micro:bit with the trigger pin on pin0 and the echo pin on pin1. The trigger pin sends a 10 µs HIGH pulse to initiate a measurement, and the echo pin returns a pulse whose width is proportional to the measured distance. The measurement function in the code includes a 30 ms timeout to prevent the program from hanging if no echo is received, for example when the sensor is pointed at open space with no reflecting surface. In this case the function returns -1, which the main control loop treats as a valid reading at safe distance rather than an error, allowing the vehicle to continue operating.
+The sensor readings are used to implement a three-zone traffic light system that controls both the vehicle speed and a set of three LEDs (red, yellow, green) connected to pins 15, 14, and 13 respectively. The thresholds are defined as follows:
+	Green zone (distance > 30 cm): no obstacle detected. The green LED is illuminated, and the vehicle operates at full SAFE_SPEED. This zone represents normal unobstructed operation.
+
+	Yellow/amber zone (20 cm < distance ≤ 30 cm): obstacle approaching. The yellow LED is illuminated, and the vehicle reduces to CAUTION_SPEED, giving the operator or autonomous system time to react before a potential collision.
+
+	Red zone (distance ≤ 20 cm): obstacle too close. The red LED is illuminated and all motors are stopped. The vehicle will not move forward until the obstacle is cleared and the distance exceeds the caution threshold.
+This graduated response avoids sudden stops from full speed, which could destabilise the vehicle or damage the payload. In a hospital environment, abrupt stopping could cause medication or samples to shift or spill inside the payload compartment, so a controlled deceleration through the caution zone is a deliberate safety measure.
+
+xyz
+Figure X: Ultrasonic sensor wiring diagram / system layout
+ 
+Figure X: Flowchart of ultrasonic obstacle detection logic
+4.2.2 Method
+Two categories of tests were conducted on the ultrasonic sensor: a distance accuracy test to compare measured values against known distances, and an oscilloscope analysis of the trigger and echo pulse waveforms under each of the three operating zones.
+For the distance accuracy test, an object was placed at nine known distances from the sensor, measured using a metre rule: 5, 10, 15, 20, 25, 30, 35, 40, and 45 cm. At each distance, three ultrasonic readings were taken and recorded via the micro:bit serial output. The mean and sample standard deviation (n-1) were calculated for each distance. This range was chosen because it spans the full operating envelope of the traffic light system, from well within the red zone (5 cm) through the amber zone (20–30 cm) and into the green zone (30+ cm). Distances beyond 45 cm were not tested because the system treats all readings above 30 cm identically (green zone, full speed), so additional accuracy data at longer ranges does not affect the vehicle's behaviour.
+For the oscilloscope analysis, a Keysight oscilloscope was used to capture the trigger and echo pulse waveforms under three conditions: red (object close, vehicle stopped), amber (object at mid-range, reduced speed), and green (object far, full speed). The trigger pulse was measured to verify consistent signal generation regardless of distance, and the echo pulse was measured to confirm that pulse width varied proportionally with distance as expected from the time-of-flight relationship. The oscilloscope data was exported as CSV files for analysis.
+
+
+4.2.3 Optimisation
+The primary optimisation for the ultrasonic subsystem was the selection of the distance thresholds. The initial threshold values were set conservatively at SAFE_DIST = 30 cm and CAUTION_DIST = 20 cm. These values were determined through iterative testing during development. Setting the caution threshold too low (for example 10 cm) did not give the vehicle sufficient stopping distance at higher speeds, as the sensor's 50 ms test cycle combined with the motor response time meant the vehicle could travel several centimetres between a reading and the motors actually decelerating. Setting it too high (for example 40 cm) caused the vehicle to slow down unnecessarily in response to objects that were not in its path, particularly in narrow lab environments where walls and furniture were within range.
+The 30 cm / 20 cm thresholds were found to provide reliable stopping performance at all tested speeds while avoiding false triggers from objects outside the vehicle's path. The 10 cm gap between the caution and stop thresholds gives approximately 200 ms of warning at typical operating speeds, which is sufficient for the motors to decelerate from CAUTION_SPEED to a full stop.
+The timeout value in the measurement function was set to 30 ms (30,000 µs). This corresponds to a maximum measurable distance of approximately 515 cm (using d = (30,000 × 10⁻⁶ × 343) / 2), which exceeds the sensor's rated maximum of 450 cm. A shorter timeout would improve the loop cycle time but could cause valid readings at longer distances to be missed. Since the system only distinguishes between three zones (the furthest boundary being 30 cm), the timeout value is not performance-critical and was left at a conservative value to ensure reliability.
+Electrical noise from the H-bridge motor drivers was observed on the echo waveform during oscilloscope testing. This manifested as small voltage fluctuations and ripple on the echo signal, likely caused by the rapid switching of the motor drivers sharing the same supply rail as the sensor. Despite this noise, the pulse edges remained clearly distinguishable, and no false readings were attributed to electrical interference during testing. A dedicated decoupling capacitor on the sensor supply line would reduce this noise further but was not implemented due to time constraints.
+4.2.4 Results and Data
+Distance Accuracy Test
+Table X presents the results of the distance accuracy test, comparing the known distance (measured by metre rule) against three ultrasonic sensor readings at each distance, along with the calculated mean and sample standard deviation.
+Table X: Ultrasonic Sensor Distance Accuracy Results
+ 
+
+At short distances (5–10 cm), the sensor readings closely matched the ruler measurements, with mean errors of 0 cm and 0.33 cm respectively. As distance increased, a slight systematic underestimation became apparent: the mean reading at 30 cm was 29.00 cm (error of -1.00 cm) and at 40 cm was 38.67 cm (error of -1.33 cm). The exception was the 45 cm measurement, where the sensor overestimated with a mean of 46.00 cm (error of +1.00 cm).
+The standard deviation remained low across all distances, ranging from 0 to 1.15 cm, indicating good repeatability. The largest variation (SD = 1.15 cm) occurred at 25 cm, which sits at the boundary between the amber and green zones. Despite this, the maximum error at any single reading was 2 cm (25 cm actual, 23 cm measured), which is small relative to the 10 cm gap between the caution and stop thresholds. This means the measurement uncertainty does not risk triggering the wrong zone, an object at 25 cm will reliably register in the amber zone rather than accidentally appearing in the red zone or green zone.
+The overall mean absolute error across all nine distances was approximately 0.85 cm, which is within the sensor's stated resolution of 1 mm and well within acceptable limits for the application. For a hospital delivery vehicle operating at low speeds in corridors, a 1 cm measurement error at obstacle detection distances does not meaningfully affect safety performance.
+Oscilloscope Analysis
+Oscilloscope traces were captured for both the trigger pulse and echo pulse under each of the three operating conditions (red, amber, green).
+The trigger pulse remained consistent across all three conditions. The measured pulse amplitude was approximately 3.3V and the pulse width was constant at approximately 10 µs, confirming that the trigger signal generation is independent of object distance and that the micro:bit's GPIO is producing a clean, repeatable output signal.
+ 
+Figure X: Trigger pulse waveform showing consistent amplitude and pulse width across all distance conditions
+The echo pulse width varied proportionally with distance, as expected from the time-of-flight relationship. Under the green condition (object far), the echo pulse showed the longest HIGH duration. Under amber (object at mid-range), the pulse duration was intermediate. Under red (object close), the pulse produced the shortest HIGH duration. This confirms correct physical behaviour of the sensor and validates that the software distance calculation is based on a genuine change in echo timing rather than any other variable.
+
+ 
+Figure X: Comparison of echo pulse widths for red, amber, and green conditions demonstrating proportional time-of-flight behaviour
+Minor electrical noise and ripple were observed on the echo waveform in all three conditions. This is attributed to rapid switching of the H-bridge motor drivers on the shared supply rail. The noise did not affect the ability to distinguish pulse edges, and no false distance readings were observed during testing. Adding a decoupling capacitor to the sensor's supply line would reduce this interference but was not implemented within the project timeline.
+
+4.3 Line-Follower 
+4.3.1 Design
+The line-following subsystem uses the Kitronik 5629 line-following board [3], which contains two infrared LED and phototransistor sensor pairs spaced approximately 25 mm apart. Each sensor pair operates by emitting infrared light downward onto the surface beneath the vehicle. A light surface reflects the IR light back to the phototransistor, increasing its conductivity and producing a higher output voltage. A dark surface absorbs the IR light, resulting in a lower output voltage. This analogue voltage output varies continuously with the reflectivity of the surface.
+The Kitronik 5629 was selected over the 56111 (£4.00) because it includes onboard tuning potentiometers and LED indicators. The potentiometers allow the detection threshold to be adjusted mechanically for the specific surface and line material used, without modifying the code. The LED indicators provide immediate visual confirmation of line detection during testing and calibration, which accelerated the debugging process during the limited development time available. At £5.50 it represented the more expensive option but reduced development time by eliminating the need for custom wiring or adapter cables.
+The board requires no soldering and connects via a standard 2.54 mm pitch pin header, making it suitable for rapid prototyping within the limited project timeline. The sensor operates at 3 V to 5 V, which is directly compatible with the micro:bit's 3.3 V output without requiring level shifting or additional circuitry.
+The sensors are connected to micro:bit pins 16 (left) and 12 (right). Although the sensors provide an analogue output, the implementation reads them digitally using read_digital(), which applies the micro:bit's internal voltage threshold (approximately 1.6 V at 3.3 V VCC) and returns a binary 0 or 1. Digital reading was chosen over analogue for two reasons. First, the line-following logic only requires a binary distinction between "on the line" and "off the line", the exact voltage value is not needed to determine which direction to correct. Second, read_digital() executes faster than read_analog(), which involves an ADC conversion cycle. In the main control loop, which also processes ultrasonic distance measurements, radio decryption, and motor commands, minimising the time spent on each sensor read improves overall system responsiveness.
+The sensor board is mounted to the front underside of the chassis using a 3D-printed case designed to maintain a consistent clearance of 1 to 3 mm from the floor surface. This clearance is critical, too high and the sensors cannot reliably distinguish between surfaces, too low and the case risks physical contact with the ground which would obstruct movement and potentially damage the sensor. The Kitronik 5629 datasheet specifies a maximum detection distance of 5 mm, so the chosen clearance sits well within the effective range.
+The decision logic operates as follows: when both sensors read 0 (both on white surface, vehicle centred between line edges), the vehicle drives forward at the set LINE_SPEED. When the left sensor reads 1 (left sensor has crossed onto the line), the vehicle executes an arc to the right to correct back towards centre. The opposite applies when the right sensor detects the line. The arc correction drives the outer wheels at full speed and the inner wheels at one quarter speed (speed // 4), providing a gentle correction rather than a sharp turn which would cause oscillation and unstable tracking. When both sensors detect the line simultaneously, the vehicle stops. The logic of the line-following code is shown in Figure X.
+ 
+Figure X: Flowchart of line follower code
+4.3.2 Method
+Two categories of test were conducted on the line-following subsystem: a static voltage test to verify sensor behaviour against the manufacturer's specifications, and a dynamic deviation test to evaluate tracking accuracy at different speeds.
+For the voltage test, a multimeter was connected across the output pins of the Kitronik 5629 board to measure the analogue voltage produced by each sensor directly. The right sensor was first left uncovered on a light surface and the voltage recorded, then covered by hand to block all reflected IR light, simulating a dark surface with no reflection. The same procedure was repeated for the left sensor. This test was designed to confirm that the sensor outputs fell within the expected range and that sufficient voltage separation existed for reliable digital detection.
+For the deviation test, a 0.5 m straight track was constructed using black electrical tape on a white surface. The vehicle was run along the track at each of five LINE_SPEED values: 20, 40, 60, 80, and 100. At each speed, eleven readings were taken by measuring the perpendicular distance from the centre of the line follower to the centre of the tape line at a fixed point along the track, along with the direction of deviation (left or right). Eleven readings were chosen to provide a sufficient sample size for calculating meaningful averages and standard deviations while remaining practical within the available lab time.
+The straight track was chosen because it isolates the effect of speed on tracking accuracy without introducing the additional variable of curve geometry. An attempt was made to test the vehicle on a curved track, but the vehicle was unable to follow curves reliably at the tested speeds. This is discussed further in Section 6.
+
+4.3.3 Optimisation
+The primary optimisation target for the line-following subsystem was the LINE_SPEED parameter, which controls the PWM duty cycle applied to the motors during autonomous tracking. A higher speed completes the route faster but reduces the time available for the sensor to detect a line edge and trigger a correction, increasing the risk of the vehicle overshooting the line and losing track. A lower speed improves tracking accuracy but slows delivery time, which is undesirable in a hospital environment where timely transport of supplies is important.
+To find a suitable operating speed, the vehicle was tested at five LINE_SPEED values: 20, 40, 60, 80, and 100. At each speed, eleven deviation readings were recorded over a 0.5 m straight track, measuring the perpendicular distance from the centre of the line follower to the centre of the track line. The results of these tests are presented in Section 4.2.4.
+The steering correction method was also optimised. An initial approach used a full stop on the inner wheels during a correction, which caused the vehicle to jerk sharply and oscillate around the line rather than tracking it smoothly. This was replaced with an arc correction, where the inner wheels run at one quarter of the set speed (speed // 4) while the outer wheels continue at full speed. For example, at LINE_SPEED = 40, the inner wheels run at 10 and the outer wheels at 40 during a correction. This produces a gentle curve rather than a sharp pivot, reducing oscillation and improving tracking stability.
+The physical mounting of the sensor board was another area of optimisation. The Kitronik 5629 datasheet specifies a maximum detection distance of 5 mm. Early testing found that when the sensor was mounted flush to the underside of the chassis (approximately 20 mm from the ground), it could not reliably distinguish between light and dark surfaces. A 3D-printed case was designed to hold the sensor board at a consistent clearance of approximately 3 mm from the floor surface, within the sensor's effective range. This eliminated detection failures caused by inconsistent sensor height.
+The onboard potentiometers on the 5629 board were adjusted during testing to tune the detection sensitivity for the specific combination of black electrical tape on a white surface used in the lab. The LED indicators on the board provided immediate visual feedback during this calibration, confirming when the threshold was correctly set without needing to check serial output or the micro:bit display.
+4.3.4 Results and Data
+Voltage Test
+To verify the sensor behaviour against the manufacturer's specifications, the analogue voltage output of each sensor was measured directly using a multimeter connected across the sensor output pins of the Kitronik 5629 board. Each sensor was tested in two conditions: uncovered on a light surface (IR light reflected back to the phototransistor) and covered by hand (IR light blocked, simulating a dark surface with no reflection). The results are shown in Table X.
+Table X: Sensor Voltage Test Results
+ 
+The Kitronik 5629 datasheet specifies typical output voltages of approximately 0.5 V on a light surface and 2.5 V on a dark surface at 3 V VCC [3]. The system operates at 3.3 V VCC (supplied by the micro:bit), which shifts the voltage range compared to the datasheet's 3 V reference. The measured readings show a clear voltage separation of approximately 1.9 V between the two states. This separation is well above the minimum required for reliable digital detection — the micro:bit's read_digital() threshold is approximately 1.6 V at 3.3 V VCC, placing the uncovered readings (2.08–2.11 V) firmly above the threshold and the covered readings (0.197 V) firmly below it.
+The covered condition produced a lower voltage (0.197 V) than the datasheet's typical dark surface value (0.5 V at 3 V VCC). This is expected because covering the sensor by hand blocks virtually all reflected IR light, whereas a dark surface such as black tape still reflects a small amount. The uncovered readings (2.08–2.11 V) are also slightly lower than the datasheet's dark surface value of 2.5 V at 3 V VCC, but this comparison is not direct since the test conditions differ (reflective light surface at 3.3 V VCC versus dark surface at 3 V VCC). The key finding is that both sensors produce closely matched outputs (within 0.03 V of each other in both conditions), confirming consistent calibration across the two channels, and that the voltage separation between states is large enough for reliable binary detection.
+
+Deviation Test
+The deviation test measured the tracking accuracy of the line follower at five LINE_SPEED values over a 0.5 m straight track. Table Y presents the full set of raw deviation readings, and Table Z summarises the statistical results.
+Table Y: Raw Deviation Readings
+ 
+
+Table Z: Summary Statistics
+ 
+
+The mean deviation increased from 0.65 cm at speed 40 to 1.42 cm at speed 80, consistent with the expectation that higher speeds allow less time for sensor-triggered corrections and therefore produce greater tracking error. However, the relationship was not perfectly linear. Speed 20 produced a mean deviation of 0.78 cm, which is higher than speed 40 (0.65 cm). This is likely because at very low duty cycles the motors operate close to their stall threshold, producing inconsistent torque that introduces additional wobble into the vehicle's path. Speed 40 represents the point where the motors run reliably while still allowing sufficient reaction time for the sensor to trigger corrections before the vehicle drifts significantly from the line.
+A scatter plot of mean deviation against LINE_SPEED was produced with a linear line of best fit (Figure X). The trendline equation is y = 0.0086x + 0.56, with an R² value of 0.653. The positive gradient confirms the general trend that deviation increases with speed. The moderate R² value indicates that while speed is a significant factor, it does not fully explain the variation in deviation. Other contributing factors include the short track length (0.5 m), which limits the number of correction cycles per run, minor inconsistencies in tape positioning, and variations in motor response at different duty cycles.
+ 
+Figure X: Mean Deviation versus Line_speed
+The standard deviation of readings was relatively consistent across all speeds, ranging from 0.48 cm (speed 40) to 0.64 cm (speed 60), indicating that the spread of individual readings did not vary dramatically with speed. This suggests that the random variation in each run is driven more by environmental factors such as tape alignment and surface texture than by the speed setting itself.
+Based on these results, a LINE_SPEED of 40 was selected as the operational speed for the final system. It produced the lowest mean deviation (0.65 cm) and the lowest standard deviation (0.48 cm), indicating the most accurate and consistent tracking performance of the values tested.
+4.4 Klaw kit
+4.4.1 Design
+The actuator is the Kitronik :MOVE Motor Klaw Kit (5696), which uses a small 180° hobby servo to open/close the claw jaws and connects via a servo header supplying power and PWM control signal. (kitronik.co.uk). The servo position is commanded by PWM pulses (typ. ~20 ms repetition) where pulse width maps to target angle. The functional behaviour of the Klaw as defined by the code is to 'open’, move to a defined open angle that was calculated to be (a max) 140°. ‘Grip’, move to a target grip angle defined by user based on object. ‘Servo off’, after reaching stable grip, PWM is disabled to reduce continuous current draw and heating.
+This specific part was selected (Kitronik :MOVE Motor Klaw Kit (5696),(£7.00)) was selected to add extra EV functionality to hold items and subsequently move them to a required destination, which was a wanted feature when planning out the overall design for the medical delivery EV. The Klaw / servo are connected to Kitronik board connected to micro:bit pin 8 for the signal pin and the ground and voltage pins are connected to an extra breadboad and a power pack respectively. The ground on the board is then connected directly to ground. This setup was used as the servos internal threshold voltage was 4-6V and the threshold current was 0.5A and these values couldn’t be obtained running power directly through the Kitronik which requires more voltage and current to run the rest of the components. This setup with common ground on breadboard and servo connected directly to power source gave the safest and most reliable way to ensure the servo hand the correct bandwidth voltage and current to operate correctly.
+The Klaw is positioned to the back centre of the chassis screwed in-between the top and bottom parts of the chassis for a stable connection that minimises risk of claw being dislodged and doesn’t interfere with ultrasonic sensor mounted at the front.
+The grip function has two stages, the servo first moves to a more open approach angle to make gentle contact with the object (reducing the chance of pushing it away), then tightens to the final grip angle to secure the object. An optional small back off step slightly relaxes the grip to reduce stall torque and buzzing. After gripping, the code can optionally disable the PWM output (“servo off”) to reduce current draw and heating, provided the claw mechanism can hold the object mechanically without continuous servo torque.
+ 
+ 
+4.4.2 Method 
+The claw servo was characterised by measuring electrical behaviour while systematically varying the commanded grip angle under two conditions: unloaded (no object in the claw) and loaded (a consistent test object placed in the claw). With supply volatge and current set to 5.5 V and 0.3A respectively; Servo current was measured using a digital multimeter placed in series with the servo supply’s positive lead (10 A range for safety), while supply voltage was measured in parallel across the servo power rails to capture transient sag during gripping. For each grip angle, the claw was commanded to move to the target position and hold for a consistent observation window; the mean current during the hold window and the peak current observed during the movement/contact phase were recorded. For loaded trials, the minimum supply voltage observed during the same action window was also recorded. In addition, PWM control pulses were verified using an oscilloscope at the servo signal line relative to common ground, confirming that the pulse train remained stable between loaded and unloaded conditions. This methodology was chosen to separate command signal integrity (PWM stability) from power/mechanical limitations (current draw and voltage droop) and to identify grip angles associated with high electrical stress or near stall behaviour.
+
+4.4.3 optimisation
+Optimisation focused on improving grip reliability while reducing the likelihood of stall, buzzing, and power supply collapse. The primary tuning variable was the grip angle, because decreasing the grip angle closes the claw further, increasing required torque and therefore increasing current draw and the risk of supply sag. To reduce object, push out and avoid immediate high torque contact, the control strategy can employ a two stage grip: first moving to a more open approach angle for gentle contact, then tightening to the final grip angle. An optional small back off step after tightening can reduce continuous stall torque and audible chatter while still maintaining sufficient holding force. Finally, turning the servo PWM off after achieving a stable grip (where mechanically acceptable) reduces holding current and heating; however, this must be validated against the requirement to maintain grip securely and consistently, especially in a medical environment context where predictable behaviour and safety margins are critical.
+
+4.4.4 Results and Data
+
+
+
+ 
+ 
+ 
+
+
+ 
+
+The results show clear electrical differences between unloaded and loaded operation and demonstrate that the claw becomes power stressed as the commanded grip is tightened under a deliberately limited supply condition. During testing, the servo supply was set to 5.5 V with a 0.3 A current limit, meaning any attempt by the servo to draw more than 0.3 A would force the supply into current limiting and cause the output voltage to droop. Mean (hold) current generally increased as the claw moved toward tighter grip angles, and loaded trials consistently drew higher mean current than unloaded trials, consistent with increased torque demand when gripping an object. Peak current under load frequently reached approximately 0.30 A, which is consistent with the configured current limit rather than the servo’s intrinsic peak or stall current. In parallel, the minimum supply voltage under load dropped substantially (to approximately 3.4–3.7 V at several angles), indicating repeated entry into current limiting during gripping and holding; this voltage sag would reduce the effective torque available from the servo and can produce intermittent or inconsistent grip behaviour. Because the PWM control signal was observed on an oscilloscope to remain stable with negligible change between loaded and unloaded conditions, the observed limitations are best explained by the interaction of mechanical load with the supply’s enforced current limit and associated voltage droop, rather than by instability in the command signal. For an EV prototype targeting a medical environment, these findings highlight that repeatable, reliable gripping cannot be guaranteed under a 0.3 A limited actuator rail; achieving clinical style robustness would require additional current headroom, improved power distribution, and/or grip control strategies that avoid current limit/stall regimes while still meeting the required holding force.
+
+Overall, the claw system demonstrates stable, predictable control at the signal level (PWM remained consistent under load), but its practical gripping performance in this test configuration was constrained by the actuator power rail being set to 5.5 V with a 0.3 A current limit. As grip angles tightened and torque demand increased, the servo repeatedly drove the supply into current limiting, evidenced by peak currents saturating near 0.30 A and minimum voltages drooping to approximately 3.4–3.7 V, conditions that reduce available torque and can lead to inconsistent or unstable gripping. Consequently, while the prototype claw mechanism and control approach are viable, achieving the reliability expected for a medical-environment EV application will require redesigning the actuator power delivery (greater current headroom and reduced voltage sag) and selecting/operating grip angles and control strategies that avoid sustained near-stall or current-limit operation while still providing adequate holding force.
+
+
+
+4.5 Communication
+This section describes the wireless communication system used to control the vehicle remotely and the security measures implemented to prevent unauthorised access. The system uses two BBC micro:bit V2 microcontrollers communicating via the built-in 2.4 GHz radio protocol.
+
+4.5.1 Design
+	
+Both micro:bits are configured on radio group 5 to isolate the pair from other micro:bit traffic in the lab. Because the micro:bit radio protocol is unencrypted by default, any device on the same group can send valid commands.
+In a hospital setting this is a safety risk, since an unauthorised transmitter could interfere with a vehicle carrying medication or clinical supplies. To address this, commands are encrypted on the transmitter and decrypted on the receiver using an XOR cipher with a shared 9-character key, with the result hex-encoded so the payload contains only safe printable characters. A message counter is prepended to each command, and the receiver only accepts commands whose counter is higher than the last one accepted, which also protects against replay attacks. The valid command set is restricted to seven strings (forwards, reverse, turn_left, turn_right, stop, line_on, line_off).
+After decryption the receiver checks the command against this list and discards anything that does not match, so a failed decrypt or a corrupted packet cannot trigger unintended motion. XOR with a short repeating key is not cryptographically secure against a determined attacker and would not be suitable for a production system, but it demonstrates the principle of authenticated control and significantly raises the barrier to casual interference. A production version would use a proper symmetric cipher such as AES, implemented on a microcontroller with sufficient processing headroom. The transmitter and receiver encryption processes are illustrated in Figures X and Y respectively. The reliability of the connection, including its behaviour with and without a physical obstruction, was validated experimentally. Results are presented in Section 5.X.
+
+ 
+Figure X: Transmitter System Architecture
+
+ 
+Figure Y: Receiver system architecture
+
+4.5.2 Method
+The communication system was tested in two areas: security and range reliability. The security test was conducted to verify that the XOR encryption implementation effectively prevents unauthorised devices from controlling the vehicle, a critical safety requirement identified in Section 1.2. A third BBC micro:bit was configured on the same radio group (group 5) as the vehicle and used to transmit commands to the receiver. Three scenarios were chosen to test the system's response to progressively sophisticated attacks. In Test 1, the third micro:bit sent 100 unencrypted plain text "forwards" commands. In Test 2, it sent 100 commands encrypted with the XOR cipher but using an incorrect key ("wrongkey1"). In Test 3, it sent 100 commands encrypted with the correct key ("hospiEV16") and a counter starting at 9000 to exceed the receiver's last accepted counter value. 
+To ensure a sufficient sample size 100 commands per scenario were used to provide the acceptance and rejection rates. For each test, the receiver micro:bit was connected to a laptop via USB and the Mu editor's REPL serial monitor was used to log every accepted and rejected command in real time. The vehicle was observed throughout to confirm whether the motors responded to the incoming commands.
+The range test was conducted to determine the maximum reliable operating distance of the radio link, which directly affects the practical usability of the manual override in a hospital corridor environment. The transmitter was positioned at distances from 0.5 m to 5.0 m from the receiver in 0.5 m increments, measured with a tape measure. At each distance, the transmitter sent commands continuously for a 60-second window with the radio power set to level 2. The number of packets successfully received by the receiver was recorded at each distance. This test was conducted in open line-of-sight conditions in the laboratory. 
+A second test was then performed at selected distances with a cardboard box (25 x 15 x 10 cm) placed between the transmitter and receiver, since a hospital environment contains walls, furniture, and equipment that could attenuate the radio signal between the operator and the vehicle.
+
+4.5.3 Optimisation
+Several improvements were made to the communication system during development to address reliability issues identified during testing.
+The original implementation used a single "line_mode" toggle command to switch between manual and line-following modes. Both micro:bits independently toggled their internal state when this command was sent. However, if a single radio packet was lost during transmission, the transmitter and receiver would fall out of sync, with one believing line-following mode was active while the other did not. This was resolved by replacing the toggle with two explicit commands, "line_on" and "line_off", so that the receiver sets its mode to match the transmitted state directly rather than flipping its own state.
+The XOR encryption output was found to occasionally produce non-printable characters including null bytes, which could truncate the radio payload before the full message was received. To address this, a hexadecimal encoding step was added after encryption, converting each encrypted byte to a two-character hex representation. This ensures the transmitted string contains only characters in the range 0-9 and a-f, eliminating the risk of payload corruption.
+Critical one-shot commands such as stop, line_on, and line_off were found to be unreliable when sent only once, as a single dropped packet would result in the command being lost entirely. Unlike continuous steering commands which are retransmitted every 100 ms, mode-switching commands are only sent when the operator presses a button. To improve reliability, these commands are now transmitted five times in rapid succession with 50 ms intervals, ensuring that at least one copy reaches the receiver even under poor radio conditions.
+
+4.5.4 Results and Data
+The encryption validation test results are summarised in Table X and Figure X. Across all three test scenarios, the receiver correctly distinguished authorised from unauthorised commands with a 100% accuracy rate. In Tests 1 and 2, all 100 commands were rejected, and the vehicle did not move. In Test 3, all 100 commands were accepted and executed. The raw REPL serial output for each test is provided in Appendix B.
+The range test results are presented in Table X and Figure X. At distances from 0.5 m to 2.5 m, all 51 transmitted packets were received successfully in each 60-second window. At 3.0 m, 49 of 51 packets were received, representing a 96% reception rate. At 5.0 m, 48 of 51 packets were received (94%). This indicates that the 2.4 GHz micro:bit radio maintains reliable communication at distances up to at least 5 m at power level 2, with only minor packet loss at the upper end of the tested range.
+The obstruction test showed that the presence of a cardboard box between the transmitter and receiver did not significantly affect reception. At the three tested distances, 49, 53, and 50 packets were received respectively, comparable to the open line-of-sight results at the same distances. This suggests that the 2.4 GHz signal is not significantly attenuated by small non-metallic obstructions, which is consistent with expected behaviour at this frequency.
+
+
+4.6 System Integration
+[Marks: 5 – Explain how all systems were brought together to achieve final operation mode(s). Document modifications to the car in terms of systems, aesthetics, component layout, and budget utilisation.]
+4.6.1 Integration Approach
+[Explain how subsystems were combined into a working whole. What challenges arose during integration and how were they resolved?]
+[Insert Figure Here – inline centred, no text wrapping]
+Figure 9: System Integration Block Diagram
+4.6.2 Vehicle Modifications and Layout
+[Document physical modifications, component layout, and aesthetics. Include photographs or diagrams.]
+[Insert Figure Here – inline centred, no text wrapping]
+Figure 10: EV Component Layout / Photographs
+4.6.3 Budget
+The allocated budget of £15.00 for additional components included the Kitronik Line Following Board 5629, which was selected over the alternative 56111 (£4.00) for its onboard tuning potentiometers and LED indicators [3]. The potentiometers allow the detection threshold to be adjusted mechanically for the specific surface and line material used, and the LED indicators provide immediate visual confirmation of line detection during testing and calibration. 
+The Klaw Kit 5696 was purchased to enable the robot to grip and secure medical supplies during transport. However, during testing, the servo motor included with the kit was burnt out due to overvoltage, requiring an additional Mini 180° Servo (FS90 9g) to be purchased as a replacement. This brought total spending to £16.30, exceeding the original budget by £1.30 (8.7%). Despite this, all three purchases were necessary for the core functionality of the prototype, with the additional servo required to resolve a hardware failure.
+
+
+Table 2: Budget Breakdown
+ 
+
+
+5. Results and Analysis
+[Contributes to Main Body (5 marks) – Thoroughly analyse data/plots/figures to aid audience understanding and relate to standard data/information.]
+[Also Critical Thinking (5 marks) – Data and methods for obtaining data are critically analysed, described, and explained.]
+[MINIMUM REQUIREMENT: Data and methods for obtaining data should be done well since this is the main skill an engineer needs to possess.]
+[TOP MARKS TIP: Don’t just present data – ANALYSE it. Explain trends, anomalies, and what the data means. Relate your findings to published standards, datasheets, or benchmarks.]
+5.1 Overall System Performance
+[Present and analyse the overall EV performance when all systems work together. Include clearly annotated graphs and figures with meaningful captions.]
+[Insert Figure Here – inline centred, no text wrapping]
+Figure 11: Overall EV System Performance
+
+
+5.2 Communication Results
+The radio communication system was completed in two stages: an open line-of-sight range test, and an obstruction test using a cardboard box placed between transmitter and receiver.
+The transmitter was configured at power level 2 and sent accelerometer readings (x, y, z) every 20ms. The receiver logged each successfully decoded packet to the serial console via the REPL. For each test condition the transmission ran for approximately 60 seconds, and the total packet count was recorded. The cardboard box used for the obstruction test measured 25 × 15 × 10 cm.
+Table X shows the packets received at each distance in open line-of-sight. Reception was consistent across the full tested range, with between 48 and 51 packets received per 60-second window at every distance from 0.5 m to 5 m. Table Y and Figure 2 show the obstruction test; reception remained comparable to the open line-of-sight case at all three tested distances (49, 53, and 50 packets respectively).
+
+Table X: Radio packets received per 60-second window at each distance in open line-of-sight (transmitter power level 2)
+ 
+ 
+Figure X: Radio packets received vs distance (open line-of-sight)
+
+Table Y: Radio packets received per 60-second window at each distance with cardboard box obstruction (25 × 15 × 10 cm, transmitter power level 2)
+ 
+Figure Y: Radio packets received vs distance (with cardboard box obstruction)
+
+The radio link proved reliable over the full 5 m tested range, which comfortably exceeds the distance a user would need to operate the manual override for this prototype. The slight drop at 5 m (48 packets) compared to shorter distances is within the run-to-run variation seen across the dataset and is not evidence of signal degradation.
+ The cardboard box had no measurable effect on reception, confirming that lightweight non-metallic objects in the vehicle's surroundings such as packaging, trolleys, or the vehicle's own 3D-printed payload cage will not disrupt the control signal. The test did not extend beyond 5 m and did not include dense obstructions such as walls or metal shelving. Characterising behaviour in those conditions would be a useful extension.
+5.2.1 Encryption Results
+The radio communication was tested for resistance to unauthorised commands using a third BBC micro:bit configured as an attacker on the same radio group as the vehicle and transmitter. Three attack scenarios were tested, each with 100 commands sent to the vehicle's receiver. Results are shown in Table X and Figure X.
+
+ 
+Figure X
+Table Y: Encryption Validation Test Results (n=100 per test, radio group 5)
+ 
+
+In Test 1, the attacking micro:bit transmitted the plain text "forwards" command without any encryption applied. All 100 commands were rejected by the receiver, which logged each rejection through the micro:bit’s REPL output. The receiving micro:bit vehicle did not respond to any of the unauthorised commands. The rejections occurred because the receiver attempted to decrypt each incoming message as a hexadecimal string. Therefore, plain text characters such as "f" and "o" failed to parse as valid hex pairs, raising a “ValueError” that was caught and logged as a rejection.
+In Test 2, the attacking micro:bit transmitted commands encrypted with the same XOR cipher used by the legitimate transmitter, but with an incorrect key ("wrongkey1" rather than "hospiEV16"). All 100 commands were again rejected. The decryption process completed successfully but produced invalid characters, which either lacked the expected colon separator or failed the command validation check against the list of recognised commands.
+In Test 3, the attacking micro:bit used the correct key. All 100 commands were accepted and executed by the vehicle, confirming that the encryption system itself does not block legitimate traffic and that the rejections in Tests 1 and 2 were specifically caused by the encryption.
+These results validate the principle of the encryption implementation but also expose its limitations. The 100% rejection rate across 200 unauthorised commands demonstrates that an attacker without the shared key cannot control the vehicle, addressing the security concern raised in Section 1.2 regarding the unencrypted nature of the default micro:bit radio protocol. However, Test 3 also shows that any device possessing the correct key can issue valid commands, meaning the system relies entirely on key secrecy. In a deployed hospital environment, this risk would be mitigated through device pairing, periodic key rotation, or migration to authenticated Bluetooth Low Energy. For a prototype demonstrating the need for secure radio control, the implementation proved to be effective.
+
+
+
+5.X Comparison with Existing Technologies
+[Marks: 5 (Critical Thinking) – The context of your design and EV solution should be established and evaluated against existing technologies.]
+[TOP MARKS TIP: Reference real-world EVs, competitor approaches, or academic research. Show you understand where your solution sits in the wider landscape.]
+[Compare your EV solution with existing approaches and technologies. Use references.]
+ 
+6. Discussion
+[Marks: 5 (Knowledge & Information) – Contextualise experiments, results, and analysis in a well explained section WITHOUT presenting new data or analysis.]
+[MINIMUM REQUIREMENT: Discussion might be slightly illogical at minimum threshold but must still be present.]
+[TOP MARKS TIP: Interpret your results in context. Discuss limitations, unexpected findings, and what you would do differently. Do NOT introduce new data – only discuss data already presented.]
+[Discuss what the results mean, their implications, limitations, and how they relate to the original objectives. Do NOT introduce new data here.]
+ 
+7. Conclusion
+[Marks: 5 (Professional Skills) – Describe the final outcome in relation to initial goals and stretch goals, making the group accountable for achievements or lack thereof.]
+[Also: 5 (Critical Thinking) – Must be DISTINCT from the Abstract and fulfil the conclusion’s specific purpose. Critically assess and select the appropriate important information.]
+[TOP MARKS TIP: Refer back explicitly to each numbered objective from Section 1.3. State clearly whether each was achieved, partially achieved, or not achieved, and why. The Conclusion should focus on outcomes and accountability; the Abstract should summarise the whole project.]
+[Summarise key findings. Evaluate against each initial aim and stretch goal from Section 1.3. Reflect on achievements and shortcomings. This must be distinct from the Abstract.]
+ 
+8. References
+[Marks: 5 (Presentation) – IEEE format. Each reference must link to the in-text citation [n] in the paragraph/figure/table where it was used. Aim for more than 7 references.]
+[MINIMUM REQUIREMENT: Both the reference entry AND the in-text citation link are required – otherwise you could be accused of plagiarism. If you don’t follow IEEE but reference somehow, this is passable, but IEEE is expected for full marks.]
+[1]  Micro:bit Educational Foundation, "BBC micro:bit overview," 
+     microbit.org. [Online]. Available: 
+     https://microbit.org/get-started/features/overview/. 
+
+[2]  Kitronik Ltd., "Compact robotics board for BBC micro:bit 
+     (5693) datasheet," kitronik.co.uk. [Online]. Available: 
+     https://kitronik.co.uk/5693. 
+
+[3]  Kitronik Ltd., ":MOVE line following board for BBC micro:bit 
+     (5629)," kitronik.co.uk. [Online]. Available: 
+     https://kitronik.co.uk/products/5629-move-line-following-board-for-bbc-microbit. 
+
+[4]  Adafruit Industries, "Ultrasonic distance sensor — 3V or 5V 
+     — HC-SR04 compatible — RCWL-1601," adafruit.com. [Online]. 
+     Available: https://www.adafruit.com/product/4007. 
+
+[5]  Waveshare, "Robot-Chassis-P assembly graphic tutorial," 
+     waveshare.com. [Online]. Available: 
+     https://www.waveshare.com/wiki/Robot-Chassis-P_Assembly_Graphic_Tutorial. 
+
+[6]  Cardiff University, "Week 7 – EV DC motors and robotics 
+     board," Cardiff University Learning Central, 2025.
+
+[7]  Grand View Research, "Medical robotic systems market size, 
+     share report, 2030," grandviewresearch.com. [Online]. 
+     Available: https://www.grandviewresearch.com/industry-analysis/medical-robotic-systems-market. 
+
+[8]  N. Triggle, "NHS waiting list rises for third month in row," 
+     BBC News, 9 Oct. 2025. [Online]. Available: 
+     https://www.bbc.co.uk/news/articles/cqje5ljdnygo. 
+
+[9]  M. Simon, "This incredible hospital robot is saving lives. 
+     Also, I hate it," Wired, Feb. 2015. [Online]. Available: 
+     https://www.wired.com/2015/02/incredible-hospital-robot-saving-lives-also-hate/. 
+
+[10] D. Acemoglu and P. Restrepo, "Robots and jobs: Evidence from 
+     US labor markets," Journal of Political Economy, vol. 128, 
+     no. 6, pp. 2188–2244, Jun. 2020.
+
+[11] UK Parliament, "Automated Vehicles Act 2024," 
+     legislation.gov.uk. [Online]. Available: 
+     https://www.legislation.gov.uk/ukpga/2024/10/contents/enacted.
+
+[12] European Parliament, "Regulation (EU) 2023/1230 on machinery," 
+     Official Journal of the European Union, Jun. 2023. [Online]. 
+     Available: https://eur-lex.europa.eu/eli/reg/2023/1230/oj. 
+
+[13] UK Parliament, "Health and Safety at Work etc. Act 1974," 
+     legislation.gov.uk. [Online]. Available: 
+     https://www.legislation.gov.uk/ukpga/1974/37/contents. 
+
+[14] European Commission, "Critical raw materials for strategic 
+     technologies and sectors in the EU," 2020. [Online]. Available: 
+
+[15] UK Parliament, "The Waste Electrical and Electronic Equipment 
+     Regulations 2013," legislation.gov.uk. [Online]. Available: 
+     https://www.legislation.gov.uk/uksi/2013/3113/contents/made. 
+
+[16] L. E. Kinsler, A. R. Frey, A. B. Coppens, and J. V. Sanders,
+Fundamentals of Acoustics, 4th ed. New York, NY, USA: Wiley, 2000.
+
+[17] Electronics Tutorials, "Pulse width modulation used for motor
+control applications," electronics-tutorials.ws. [Online].
+Available: https://www.electronics-tutorials.ws/blog/pulse-width-modulation.html.
+
+[18] W. Stallings, Cryptography and Network Security: Principles
+and Practice, 7th ed. Harlow, UK: Pearson, 2017.
+
+[19] Micro:bit Educational Foundation, "Hardware," tech.microbit.org.
+[Online]. Available: https://tech.microbit.org/hardware/.
+ 
+Appendices
+[Appendices are for reference material only – NOT marked and do NOT count towards the word count. Title each appendix appropriately with descriptions if necessary.]
+Appendix A: Code Listings
+[Full code listings for the Microbit/control system.]
+
+Appendix B: Raw Data
+[Raw experimental data, additional measurements.]
+
+B.X Raw Line Follower Deviation 
+ 
+
+B.X Encryption Validation Test: REPL Output
+
+Three encryption scenarios were tested with 100 commands each. The REPL serial output from the receiver micro:bit was recorded for each test. The full dataset is shown in Figure B.1, with individual test screenshots in Figures B.2–B.4.
+
+ 
+
+Figure B.1: Raw REPL serial output data from encryption validation tests. Test 1: unencrypted attacker (100 rejected). Test 2: wrong key attacker (100 rejected). Test 3: correct key attacker (100 accepted). First 45 of 100 entries shown per test.
+ 
+Figure B.2: Mu editor REPL output during Test 1, unencrypted attacker commands rejected.
+ 
+Figure B.3: Mu editor REPL output during Test 2, wrong key attacker commands rejected.
+Appendix C: Additional Figures
+[Additional photographs, circuit diagrams, or supporting figures.]
