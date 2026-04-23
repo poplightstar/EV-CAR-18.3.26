@@ -617,9 +617,9 @@ Based on these results, a LINE_SPEED of 40 was selected as the operational speed
 
 4.4.1 Design 
 
-The actuator is the Kitronik :MOVE Motor Klaw Kit (5696), which uses a small 180° hobby servo to open/close the claw jaws and connects via a servo header supplying power and PWM control signal. (kitronik.co.uk). The servo position is commanded by PWM pulses (typ. ~20 ms repetition) where pulse width maps to target angle. The functional behaviour of the Klaw as defined by the code is to 'open’, move to a defined open angle that was calculated to be (a max) 140°. ‘Grip’, move to a target grip angle defined by user based on object. ‘Servo off’, after reaching stable grip, PWM is disabled to reduce continuous current draw and heating. 
+The actuator is the Kitronik :MOVE Motor Klaw Kit (5696), which uses a small 180° hobby servo to open/close the claw jaws and connects via a servo header supplying power and PWM control signal [21]. The servo position is commanded by PWM pulses (typ. ~20 ms repetition) where pulse width maps to target angle. The functional behaviour of the Klaw as defined by the code is to 'open’, move to a defined open angle that was calculated to be (a max) 140°. ‘Grip’, move to a target grip angle defined by user based on object. ‘Servo off’, after reaching stable grip, PWM is disabled to reduce continuous current draw and heating. 
 
-This specific part was selected (Kitronik :MOVE Motor Klaw Kit (5696),(£7.00)) was selected to add extra EV functionality to hold items and subsequently move them to a required destination, which was a wanted feature when planning out the overall design for the medical delivery EV. The Klaw / servo are connected to Kitronik board connected to micro:bit pin 8 for the signal pin and the ground and voltage pins are connected to an extra breadboad and a power pack respectively. The ground on the board is then connected directly to ground. This setup was used as the servos internal threshold voltage was 4-6V and the threshold current was 0.5A and these values couldn’t be obtained running power directly through the Kitronik which requires more voltage and current to run the rest of the components. This setup with common ground on breadboard and servo connected directly to power source gave the safest and most reliable way to ensure the servo hand the correct bandwidth voltage and current to operate correctly. 
+This specific part was selected (Kitronik :MOVE Motor Klaw Kit (5696),(£7.00)) was selected to add extra EV functionality to hold items and subsequently move them to a required destination, which was a wanted feature when planning out the overall design for the medical delivery EV. The Klaw / servo are connected to Kitronik board connected to micro:bit pin 8 for the signal pin and the ground and voltage pins are connected to an extra breadboad and a power pack respectively. The ground on the board is then connected directly to ground. This setup was used as the servos internal threshold voltage was 4-6V and the threshold current was 0.5A and these values couldn’t be obtained running power directly through the Kitronik which requires more voltage and current to run the rest of the components (critical as overcurrent killed our first servo). This setup with common ground on breadboard and servo connected directly to power source gave the safest and most reliable way to ensure the servo hand the correct bandwidth voltage and current to operate correctly. 
 
 The Klaw is positioned to the back centre of the chassis screwed in-between the top and bottom parts of the chassis for a stable connection that minimises risk of claw being dislodged and doesn’t interfere with ultrasonic sensor mounted at the front. 
 
@@ -633,15 +633,19 @@ Figure M: Klaw logic flow chart
 
 4.4.2 Method  
 
-The claw servo was characterised by measuring electrical behaviour while systematically varying the commanded grip angle under two conditions: unloaded (no object in the claw) and loaded (a consistent test object placed in the claw). With supply volatge and current set to 5.5 V and 0.3A respectively; Servo current was measured using a digital multimeter placed in series with the servo supply’s positive lead (10 A range for safety), while supply voltage was measured in parallel across the servo power rails to capture transient sag during gripping. 
+The claw servo was characterised by measuring electrical behaviour while systematically varying the commanded grip angle under two conditions: unloaded (no object in the claw) and loaded (a consistent test object placed in the claw). With supply volatge and current set to 5.5 V and 0.3A respectively; Servo current was measured using a digital multimeter placed in series with the servo supply’s positive lead, while supply voltage was measured in parallel across the servo power rails to capture transient sag during gripping. 
 
-For each grip angle, the claw was commanded to move to the target position and hold for a consistent observation window; the mean current during the hold window and the peak current observed during the movement/contact phase were recorded. For loaded trials, the minimum supply voltage observed during the same action window was also recorded. In addition, PWM control pulses were verified using an oscilloscope at the servo signal line relative to common ground, confirming that the pulse train remained stable between loaded and unloaded conditions. This methodology was chosen to separate command‑signal integrity (PWM stability) from power/mechanical limitations (current draw and voltage droop) and to identify grip angles associated with high electrical stress or near‑stall behaviour. 
+For each grip angle, the Klaw was commanded to move to the target position and hold for a consistent observation window; the mean current during the hold window and the peak current observed during the movement/contact phase were recorded. For loaded trials, the minimum supply voltage observed during the same action window was also recorded. In addition, PWM control pulses were verified using an oscilloscope at the servo signal line relative to common ground, confirming that the pulse train remained stable between loaded and unloaded conditions. This methodology was chosen to separate command‑signal integrity (PWM stability) from power/mechanical limitations (current draw and voltage droop) and to identify grip angles associated with high electrical stress or near‑stall behaviour. 
 
  
 
 4.4.3 optimisation 
 
-Optimisation focused on improving grip reliability while reducing the likelihood of stall, buzzing, and power‑supply collapse. The primary tuning variable was the grip angle, because decreasing the grip angle closes the claw further, increasing required torque and therefore increasing current draw and the risk of supply sag. To reduce object, push‑out and avoid immediate high‑torque contact, the control strategy was to employ a two‑stage grip: first moving to a more open approach angle for gentle contact, then tightening to the final grip angle. An optional small back‑off step after tightening can reduce continuous stall torque and audible chatter while still maintaining sufficient holding force. Finally, turning the servo PWM off after achieving a stable grip (where mechanically acceptable) reduces holding current and heating; however, this must be validated against the requirement to maintain grip securely and consistently, especially in a medical‑environment context where predictable behaviour and safety margins are critical. 
+Optimisation focused on improving grip reliability while reducing the likelihood of stall, buzzing, and power‑supply collapse. The primary tuning variable was the grip angle, because decreasing the grip angle closes the Klaw further, increasing required torque and therefore increasing current draw and the risk of supply sag. To reduce object, push‑out and avoid immediate high‑torque contact, the control strategy was to employ a two‑stage grip: first moving to a more open approach angle for gentle contact, then tightening to the final grip angle. An optional small back‑off step after tightening can reduce continuous stall torque and audible chatter while still maintaining sufficient holding force. Finally, turning the servo PWM off after achieving a stable grip (where mechanically acceptable) reduces holding current and heating; however, this must be validated against the requirement to maintain grip securely and consistently, especially in a medical‑environment context where predictable behaviour and safety margins are critical. 
+
+Servo travel characterisation was performed to determine the usable mechanical range of the Klaw gripper before stall, binding, or loss of repeatability occurred. Incremental tests were run across the commanded angle range, and the full practical operating window was observed to be approximately 5° to 140°, beyond which the mechanism approached its mechanical stops and became more prone to stalling under load. A default commanded grip position of 70° was selected as the system’s neutral “safe” position. This value was chosen because it lies approximately mid-way between the experimentally verified end limits (≈5° and ≈140°), providing a consistent reference point for testing and reducing the likelihood of commanding the servo directly into a mechanical stop during startup or mode switching. The servo’s electrical control limits were guided by the manufacturer pulse-width specification. The FS90 datasheet [20] provides the expected minimum and maximum control pulse widths, which were used to constrain the PCA9685 pulse range (i.e., the minimum and maximum pulse counts). These datasheet bounds helped ensure that the commanded PWM stayed within the servo’s valid signalling region, improving reliability and preventing over-travel commands that could increase current draw and heating. 
+
+ 
 
  
 
@@ -649,7 +653,15 @@ Optimisation focused on improving grip reliability while reducing the likelihood
 
  
 
+Results show Klaw /servo operation data where current draw, voltage and PWM are measured relative to Klaw load and grip angle of Klaw. 
+
  
+
+ 
+
+ 
+
+Figure K: shows loaded + Unloaded Klaw servo PWM for grip angle 70°. 
 
  
 
@@ -670,6 +682,30 @@ Optimisation focused on improving grip reliability while reducing the likelihood
  
 
  
+
+ 
+
+ 
+
+ 
+
+ 
+
+Figure L: shows loaded and unloaded servo mean current draw against grip angle for Klaw. 
+
+Figure N: shows loaded and unloaded servo Peak current draw against grip angle for Klaw. 
+
+ 
+
+Figure O: shows loaded servo minimum voltage against grip angle for Klaw. 
+
+ 
+
+ 
+
+ 
+
+Figure V: shows loaded servo power stress against grip angle for Klaw. 
 
  
 
@@ -798,6 +834,372 @@ The Klaw Kit 5696 was purchased to enable the robot to grip and secure medical s
 Table 2: Budget Breakdown 
 
  
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+4.7 CAD  
+
+CAD Design Analysis 
+
+Ev cover CAD Design Analysis 
+
+ 
+
+Overall Design Overview 
+
+The EV cover has been designed as an enclosure that is able to be integrated with the vehicle chassis in order to provide protection and accessibility to internal components. The design incorporates a tapered outer shell, a recessed top tray, a USB access hole, and a front opening for wire routing. As shown in Figure 1, the cover features a compact and functional structure that meets the requirements needed for a prototype system. The primary objective of this cover’s design is to enable quick assembly and disassembly while maintaining structural integrity to allow access to internal electronics during testing and development. 
+
+Figure 1, Top/side view of EV cover with tray, USB hole and wiring hole visible 
+
+ 
+
+External Geometry and Form 
+
+The external geometry of the cover is mainly characterised by its tapered profile, where the base is wider than the top section, as illustrated in Figure 2. This design choice improves its ability to be manufactured. This makes manufacturing processes such as 3D printing easier to produce a prototype cover, by reducing overhangs and simplifying its print orientation. Additionally, the tapered shape assists in helping to guide the cover into position when joining with the EV chassis rails. From a functional perspective, this geometry provides a solution between structural stability and material efficiency, although it reduces the available internal volume, leaving less space for components. The design reduces the amount of material needed, therefore reducing the overall time to produce. Overall, the form reflects a trade-off between aesthetics, manufacturability, and functional performance. 
+
+Figure 2, Front view, wide base with narrow top section, rail feet visible) 
+
+ 
+
+Mounting System – Sliding Rail Interface 
+
+The cover attaches to the EV chassis via a sliding rail mechanism, visible in Figure 2, where protruding legs at the base slide in with the EV chassis rails. This mounting method allows the cover to be easily installed and removed without the use of tools, which is highly beneficial during the iterative prototyping phase, as the cover needs to be taken on and off repeatedly in order to access the internal components. The rails allow the cover to be aligned into the correct position and with stability during assembly. However, the absence of a secondary locking mechanism may result in movement or vibration during operation, which could cause wiring to be knocked out of place. While this approach is appropriate during the development stage for a system requiring frequent access, it may not provide sufficient stability for long term or real-world applications. 
+
+ 
+
+Cover Features (Tray and USB Access) 
+
+The top surface of the cover integrates two key features in its design: a recessed tray and a USB access hole, as shown in Figure 3. The tray provides a simple and effective method of carrying small payloads in the hospital environment, solving the intended application of the EV as a transport solution. The integration of this feature eliminates the need for additional components, simplifying the overall design. However, the open nature of the tray means that items are not secured or protected, limiting its suitability for real-world hospital use. 
+
+The USB access hole is positioned to allow direct connection to the microcontroller without removing the cover. This is particularly advantageous during testing, as it enables continuous programming and power. Despite its usefulness in a prototype, this feature introduces an opening in the enclosure that reduces protection and structural integrity. In a fully developed, battery powered system, this access hole would likely become redundant and could be removed. 
+
+ 
+
+Figure 3, Top view of EV cover with tray and USB hole visible 
+
+Front Interface (Wire opening) 
+
+A rectangular opening is incorporated at the front of the cover to allow wires to pass through to external components such as our line follower and ultrasonic sensor, as illustrated in Figure 4. This feature ensures that cables can be routed to components without being pinched or obstructed by the enclosure, which is critical for maintaining connections during operation and testing. While this is effective for prototyping, the exposed nature of this opening offers minimal protection for the wiring. This is a problem, especially in a hospital environment. Future iterations could refine this feature to improve both its durability and appearance.     
+
+ 
+
+ 
+
+ 
+
+Figure 4, Front view of EV cover with wiring hole visible 
+
+Internal Volume and Packaging 
+
+The internal volume of the cover is designed to accommodate the electronic components of the EV, including the microcontroller and wiring. The sloped side walls reduce the available internal space compared to the walls being vertical. However, this compromise helps support the external geometry as well as the ease of assembly. The layout demonstrates an understanding of component packaging, ensuring sufficient clearance for the microbit during operation whilst maintaining a compact and aesthetic form. This design choice reflects a balance we had to consider between the internal functionality and external design constraint. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Dimensional Design and Fit 
+
+The technical drawing presented in Figure 5 provides detailed dimensions of the cover, ensuring compatibility with the chassis as well as other components. Accurate specification of widths, heights, and clearances is essential for achieving a proper fit, particularly for the sliding rail to allow the cover to interface with the rails. The inclusion of these dimensions demonstrates the adherence to standard engineering practices and supports the reproducibility of the design. This is critical for both manufacturing and validation of the component within the overall system. 
+
+Figure 5, detailed dimensions of EV cover 
+
+Structural Considerations 
+
+From a structural perspective, the cover is intended for lightweight fabrication, such as 3D printing. The flat top surface and lack of visible reinforcement features mean that the design may experience some flex under load, particularly in the tray area. While this is acceptable for a prototype handling minimal weight, it may limit performance under more demanding conditions, such as use in the hospital environment. The addition of internal supports or increased wall thickness in critical areas could enhance stiffness and durability without significantly increasing material usage. However, this could result in components being unable to fit inside the cover, making it unusable, and a new design may be needed. 
+
+ 
+
+ 
+
+ 
+
+EV Cover Design Evaluation 
+
+The EV cover demonstrates several strengths, including its simplicity, ease of assembly, and effective integration of functional features such as its storage and access points. The simplicity of the attachment features of the design supports rapid iteration, which is essential in a prototyping environment. However, there are limitations, including the absence of a secure mounting mechanism, exposed wiring, and limited structural reinforcement. These factors indicate that while the design is well-suited for development purposes, further refinement would be required for practical deployment. 
+
+Future Improvements 
+
+Future iterations of the design could include a more secure mounting system, such as snap fit features, screws, or magnetic retention, to complement the existing rail interface system. The open tray could be replaced with an enclosed compartment to improve payload security and protection. Additionally, the USB access hole could be removed or redesigned in a battery powered system to enhance enclosure integrity. Improvements to cable management, such as the inclusion of dedicated channels or protective features, would further increase the strength as well as the professionalism of the design. Finally, structural enhancements, including internal reinforcement and optimised wall thickness, could improve overall durability. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Line Follower Holder CAD Design Analysis 
+
+Overall Design Overview 
+
+The line follower holder has been designed as a simple mounting solution used to position the line following sensor at an appropriate height and orientation relative to the ground. The primary function of this component is to securely attach the sensor to the EV chassis while ensuring consistent and reliable detection of surface markings. Compared to the EV cover, this design is more focused on functionality than enclosure. 
+
+ 
+
+Design Geometry and Structure 
+
+The holder features compact and minimal geometry, designed to support the sensor without adding unnecessary weight or complexity. The structure is likely composed of two flat mounting bases and a vertical support section, allowing the sensor to be positioned at the correct height beneath the EV. This simple design is beneficial for manufacturing,  
+
+particularly for 3D printing, as it reduces print time, material usage, and potential failure points. From an engineering perspective, the design prioritises rigidity and alignment over aesthetics. The geometry ensures that the sensor remains in a stable position during operation, preventing unwanted movement that could affect line detection accuracy. 
+
+ 
+
+Figure 6, Line follower holder CAD 
+
+ 
+
+Mounting and Integration 
+
+The holder is designed to attach directly to the EV chassis, providing a stable interface between the sensor and the vehicle. This integration ensures that the sensor maintains a fixed position relative to the wheels and ground surface, which is critical for consistent performance. 
+
+The Holder is mounted through the use of a nut and a bolt to connect the part with the EV chassis. The line follower is mounted to the underside of the holder using the same method. While sufficient for a prototype, the design could be further refined to improve ease of installation as well as long term durability. Ensuring a secure attachment is particularly important, as any movement of the sensor could lead to incorrect readings and a reduction in the system's reliability. 
+
+ 
+
+Height and Ground Clearance Considerations 
+
+A key design requirement for the line follower holder is maintaining an appropriate distance between the sensor and the ground. The line following sensor requires a very small clearance, in the range of 1–3 mm, to accurately detect contrast between the line and the surrounding surface. 
+
+The holder is therefore designed to position the sensor close to the floor while avoiding physical contact. This is a critical balance, as if the sensor is too high, detection accuracy decreases. If the sensor is too low, it risks contact with the ground, leading to potential damage or inconsistent readings. The CAD design reflects this requirement by providing a controlled mounting height and ensuring reliable sensor performance during operation. 
+
+Figure 7, detailed dimensions of line follower sensor holder 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Design Evaluation 
+
+The line follower holder demonstrates a strong focus on functional requirements, particularly in maintaining correct sensor positioning. Its simple geometry makes it easy to manufacture and integrate, which is ideal for a prototype system. 
+
+However, the design has some limitations. The mounting method may lack adjustability, meaning that fine tuning the sensor height could be difficult once manufactured. Additionally, the component does not provide protection for the sensor, leaving it exposed to potential impacts or environmental factors. 
+
+ 
+
+Future Improvements 
+
+Future iterations of the holder could introduce adjustable features, height adjustable mounts, allowing the sensor position to be fine tuned to the correct height after assembly. This would improve calibration as well as adaptability to different surfaces. 
+
+Additional improvements could include protective features to shield the sensor from damage, improved mounting methods for increased stability and reinforcement in high-stress areas to reduce vibration effects to help increase the sensor's accuracy. 
+
+Overall, while the current design is effective for its intended purpose in a prototyping environment, these enhancements would improve performance and reliability in more advanced applications. 
+
+Figure 8, Line follower sensor holder CAD images 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Ultrasonic Sensor Holder CAD Design Analysis 
+
+The ultrasonic sensor holder is designed as a simple mounting component to position the sensor at the front of the EV, ensuring a clear forward facing field of view which is essential for distance measurement. The design prioritises correct orientation and stability, allowing the sensor to operate effectively without obstruction.  
+
+Figure 9, Ultrasonic sensor CAD image 
+
+Future Improvements 
+
+The holder could be integrated with the EV cover to form a combined system rather than two standalone components. This integration simplifies assembly and ensures consistent alignment between the sensor and the vehicle structure. By incorporating the sensor mounting into the cover design, the need for additional mounting hardware is reduced. Furthermore, this approach helps maintain a clean external profile while ensuring that wiring can be routed through the front opening of the cover without interference. 
+
+Additional improvements could include protective features to shield the sensor from damage, improved mounting methods for increased stability and reinforcement in high-stress areas to reduce vibration effects to help increase the sensor's accuracy. 
+
+Overall, while the current design is effective for its intended purpose in a prototyping environment, these enhancements would improve performance and reliability in more advanced applications. 
+
+ 
+
+Overall Design Evaluation 
+
+Overall, the CAD designs for the EV cover, line follower holder, and ultrasonic sensor holder easily integrate within the system. The EV cover provides an effective enclosure solution with accessible features such as the USB opening and wire routing, while also incorporating a basic tray to support the intended application of delivery in a hospital environment. The line follower holder successfully addresses the requirement of maintaining a precise ground clearance, ensuring reliable sensor performance, and the ultrasonic sensor holder effectively positions the sensor for forward facing detection. Together, these components form a system that supports the operation of the EV during the developmental phase. 
+
+However, the designs also reflect the limitations of prototype stage solutions. The simple mounting methods, such as sliding rails and fixed brackets, may result in reduced stability and limited adjustability, particularly for components like sensors where precise positioning is essential. Additionally, features such as exposed wiring, open payload storage, and the USB access hole highlight that the design is optimised for testing rather than real world applications. Overall, the designs effectively meet their intended purpose within a prototype context while providing a strong foundation for further development. 
 
  
 
@@ -1276,3 +1678,5 @@ Figure B.3: Mu editor REPL output during Test 2, wrong key attacker commands rej
 Appendix C: Additional Figures 
 
 [Additional photographs, circuit diagrams, or supporting figures.] 
+
+ 
