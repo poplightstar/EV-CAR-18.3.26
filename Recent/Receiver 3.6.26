@@ -23,11 +23,11 @@ CLAW_OPEN = 140
 CLAW_CLOSED = 5
 
 # Two-stage grip tuning:
-# - CLAW_APPROACH should be more open than CLAW_GRIP (bigger number) to touch gently first.
+# - CLAW_APPROACH should be more open than CLAW_GRIP (bigger number)touch gently first.
 # - CLAW_GRIP is the final grip position.
 # Start from your working numbers and tune from there.
 CLAW_APPROACH = 70        # try 70..100 (bigger = gentler, less pushing)
-CLAW_GRIP = 60            # try 40..80 (smaller = tighter grip)
+CLAW_GRIP = 50            # try 40..80 (smaller = tighter grip)
 CLAW_SETTLE_MS = 200
 
 # Tiny backoff to reduce stall torque while still holding
@@ -340,14 +340,20 @@ while True:
         claw_on()
         close_for_grip_release()
         sleep(200)
-        # Turn off servo after grip (works only if claw can mechanically hold)
         claw_off()
+
+    # FIX: handle "stop" here so it clears line_follow_mode
+    # before the line-follow block can run
+    elif message == "stop":
+        line_follow_mode = False
+        stop_all()
+        display.clear()
 
     if not obstacle_too_close:
         if line_follow_mode:
             line_follow_step(LINE_SPEED)
         elif message is not None and message not in [
-            "line_on", "line_off", "claw_open", "claw_close", "claw_grip"
+            "line_on", "line_off", "claw_open", "claw_close", "claw_grip", "stop"
         ]:
             # Any drive command: disable claw PWM
             claw_off()
@@ -364,8 +370,5 @@ while True:
             elif message == "turn_right":
                 turn_right(current_speed)
                 display.show(Rt)
-            elif message == "stop":
-                stop_all()
-                display.clear()
 
     sleep(50)
